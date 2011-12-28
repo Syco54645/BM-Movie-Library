@@ -1,0 +1,373 @@
+@charset "utf-8";
+
+/* BODY */
+body {
+    background-color:#000;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:11px;
+    color: #FFF;
+    border:0px;
+    padding: 0px;
+    margin: 0px;
+    outline: none;
+}
+img {
+    vertical-align: middle;
+    border: 0px;
+}
+img#bg {
+    width:100%;
+    height:100%;
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:-2;
+}
+a:link { 
+    color:#999; 
+    text-decoration:none;
+}
+a:visited {
+    color:#999;
+    text-decoration:none;
+}
+a:hover {
+    color:#FFF;
+    text-decoration:none;
+}
+a:active {
+    color:#FFF;
+    text-decoration:none;
+}
+span.green {
+    color: #00c401;
+    font-weight: bold;
+}
+span.red {
+    color: #ff0000;
+    font-weight: bold;
+}
+span.orange {
+    color: #f88e11;
+    font-weight: bold;
+}
+
+/*###########*/
+/* INDEX.PHP */
+/*###########*/
+
+/* Panel top */
+div#panel_title {
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    display: none;
+}
+div#title {
+    padding-top: 5px;
+    padding-left: 10px;
+    margin-right: 246px;
+    font-size:24px;
+    font-weight:bold;
+    opacity: .8;
+    filter: alpha(opacity=80);
+    background-color: #000;
+}
+div#tagline {
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    margin-right: 246px;
+    font-size:14px;
+    opacity: .8;
+    filter: alpha(opacity=80);
+    background-color: #000;
+}
+table#info {
+    margin-top: 80px;
+    margin-left: 10px;
+    border-spacing: 2px;
+    display: none;
+}
+table#info td {
+    background-color: #000;
+    padding-left: 4px;
+    padding-right: 4px;
+    opacity: .8;
+    filter: alpha(opacity=80);
+}
+
+/* Panel bottom */
+div#panel_info {
+    width: 100%;
+    position:absolute;
+    left:0px;
+    bottom: 0px;
+    display: none;
+}
+img#img_poster {
+    width:200px;
+    height:280px;
+}
+div#poster {
+    width:200px;
+    height:280px;
+    position:absolute;
+    left:20px;
+    bottom:45px;
+    border: 1px solid #FFF;
+    display: none;
+    z-index: 1;
+}
+div#img_flag {
+    position:absolute;
+    bottom:14px;
+    left:26px;
+    z-index: 2;
+}
+img#vres, img#vtype, img#atype, img#achan {
+    width: 48px;
+    height: 18px;
+    display: none;
+}
+div#plot_text {
+    min-height: 130px;
+    padding-left: 240px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    margin-right: 246px;
+    background-color:#000000;
+    opacity: .8;
+    filter: alpha(opacity=80);
+}
+span#plot {
+    font-weight:bold;
+    color: #0073f2;
+}
+
+/* Panel right */
+div#panel_right {
+    width: 245px;
+    height: 100%;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    border-left: 2px solid #0857b3;
+    background-color:#000;
+    opacity: .9;
+    filter: alpha(opacity=90);
+    padding-right: 1px;
+    padding-left: 2px;
+    display: none;
+}
+div#panel_list {
+    height: 100%;
+    overflow: scroll;
+    background-color: #000;
+}
+div.nav {
+    padding-top: 2px;
+    padding-bottom: 4px;
+    color: #0073f2;
+    font-weight: bold;
+    text-align: center;
+}
+img.img_nav {
+    width: 12px;
+    height: 14px;
+}
+div#img_options {
+    height: 14px;
+    width: 14px;
+    padding-top: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+/* movie list table */
+table#list {
+    border-collapse: collapse;
+    text-align: left;
+    background-color: #000;
+}
+table#list td {
+    padding: 3px;
+    font-size: 11px;
+    background-color: #000;
+}
+div.movie_title {
+    width: 150px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* movie list options */
+div#img_back {
+    height: 14px;
+    width: 14px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+div#panel_options {
+    background-color: #000;
+    display: none;
+}
+div.bold {
+    font-weight: bold;
+    background-color: #111; 
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 15px;
+    margin-left: 15px;
+    padding: 2px;
+}
+div#search {
+    text-align: center;
+}
+input.search {
+    background-color:#000;
+    color:#999;
+    border: 1px solid #333;
+    font-size:11px;
+    width:160px;
+    height:20px;
+    margin: auto;
+}
+input.search_img {
+    width:16px;
+    height:16px;
+    border:0px;
+    vertical-align:middle;
+    padding-left:5px;
+}
+div.sort {
+    width: 60px;
+    display: inline-block;
+    text-align: center;
+}
+div#genre_menu {
+    text-align: left;
+    background-color:#000000;
+}
+div.genre {
+    width: 120px;
+    text-align: center;
+    display: inline-block;
+    margin: 1px;
+}
+
+/*###########*/
+/* PANEL.PHP */
+/*###########*/
+
+div#p_all {
+    margin: 10px;
+}
+div#p_panel_left {
+    float: left;
+    width: 220px;
+}
+div.p_panel_title {
+    text-align: center;
+    font-weight: bold;
+    background-color: #222;
+    border-top: 1px solid #333;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+}
+div.p_panel_box {
+    padding: 5px;
+    margin-bottom: 10px;
+    background-color: #111;
+    border: 1px solid #333;
+}
+div#p_panel_content {
+    margin-left: 10px;
+    float: left;
+    border: 1px solid #333;
+    padding: 10px;
+    background-color: #111;
+}
+div.p_checked {
+    text-align: right;
+    margin: 2px;
+}
+div.p_checked span {
+    color: #CCC;
+    cursor: pointer;
+}
+table#p_table {
+    border: 1px solid #333;
+    border-collapse: collapse;
+    font-size: 11px;
+}
+table#p_table td {
+    height: 22px;
+    background-color: #000;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+table#p_table td#p_title {
+    width: 300px;
+}
+table#p_table td.p_top {
+    text-align: center;
+    font-weight: bold;
+    background-color: #222;
+}
+div#p_confirm {
+    display: none;
+    position: absolute;
+    width:200px;
+    top: 20px;
+    right: 20px;
+    background-color: #111;
+    border: 1px solid #ff0000;
+    padding: 10px;
+    text-align: center;
+}
+div#p_confirm button {
+    background-color: #000;
+    color: #CCC;
+    border: 1px solid #333;
+    font-size: 10px;
+}
+
+/*###########*/
+/* LOGIN.PHP */
+/*###########*/
+div#l_login {
+    text-align: center;
+    margin-top: 30px;
+}
+div.l_panel_title {
+    margin: auto;
+    width: 180px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #222;
+    border-top: 1px solid #333;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+}
+div.l_panel_box {
+    padding-top: 6px;
+    padding-bottom: 10px;
+    margin: auto;
+    width: 180px;
+    background-color: #111;
+    border: 1px solid #333;
+}
+input#l_pass {
+    background-color: #000;
+    border: #AAAAAA 1px solid ;
+    color: #CCCCCC;
+    font-size: 10px;
+}
