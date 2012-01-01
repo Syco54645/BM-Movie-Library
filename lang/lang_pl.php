@@ -19,7 +19,14 @@ $lang['i_runtime']                      =   'Czas trwania';
 $lang['i_director']                     =   'Reżyser';
 $lang['i_country']                      =   'Kraj';
 $lang['i_minute']                       =   'min.';
+$lang['i_options']                      =   'Opcje';
+$lang['i_back']                         =   'Powrót';
+$lang['i_first']                        =   'Pierwsza';
+$lang['i_previous']                     =   'Poprzednia';
+$lang['i_next']                         =   'Następna';
+$lang['i_last']                         =   'Ostatnia';
 $lang['i_search']                       =   'Szukaj';
+$lang['i_search_del']                   =   'Usuń wyniki wyszukiwania';
 $lang['i_result']                       =   'Wynik dla frazy';
 $lang['i_list_title']                   =   'Lista filmów';
 
@@ -113,7 +120,7 @@ $lang['f_nfo_poster']                   =   'Okładka';
 $lang['f_nfo_fanart']                   =   'Plakat';
 
 // Import movie from file
-$lang['f_import_renamed']               =   'Nazwa pliku została zmieniona na';
+$lang['f_import_renamed']               =   'Rozszerzenie zaimportowanch plików zostalo zmienione na .bak';
 $lang['f_import_succes']                =   'Poprawnie zaimportowano';
 $lang['f_import_error']                 =   'Błędy';
 $lang['f_import_imported_movie']        =   'Zaimportowano';

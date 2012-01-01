@@ -19,7 +19,14 @@ $lang['i_runtime']                      =   'Runtime';
 $lang['i_director']                     =   'Director';
 $lang['i_country']                      =   'Country';
 $lang['i_minute']                       =   'min.';
+$lang['i_options']                      =   'Options';
+$lang['i_back']                         =   'Back';
+$lang['i_first']                        =   'First';
+$lang['i_previous']                     =   'Previous';
+$lang['i_next']                         =   'Next';
+$lang['i_last']                         =   'Last';
 $lang['i_search']                       =   'Search';
+$lang['i_search_del']                   =   'Delete search results';
 $lang['i_result']                       =   'Result for phrase';
 $lang['i_list_title']                   =   'Movie list';
 
@@ -113,7 +120,7 @@ $lang['f_nfo_poster']                   =   'Poster';
 $lang['f_nfo_fanart']                   =   'Fanart';
 
 // Import movie from file
-$lang['f_import_renamed']               =   'The file name was changed to';
+$lang['f_import_renamed']               =   'All imported files changed extension to .bak';
 $lang['f_import_succes']                =   'Successfully imported';
 $lang['f_import_error']                 =   'Errors';
 $lang['f_import_imported_movie']        =   'Imported movies';

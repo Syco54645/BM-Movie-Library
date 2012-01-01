@@ -1,39 +1,43 @@
 <?PHP
 session_start();
-include 'config.php';
-include 'function.php';
+require 'config.php';
+require 'function.php';
 
 if (!isset($_SESSION['id']) or $_SESSION['id'] !== md5($_SERVER['REMOTE_ADDR']) . md5($panel_pass)) {
     header('location: login.php');
 }
 
 if (isset($_GET['option'])) {
-    if ($_GET['option'] == 'del_all') {
-        $content_output = delete_table($table_name, $lang);
-    }
-    if ($_GET['option'] == 'create_new') {
-        $content_output = create_table($table_name, $lang);
-    }
-    if ($_GET['option'] == 'xml_file_info') {
-        $content_output = xml_file_info($xml_file, $lang, $detect_encoding);
-    }
-    if ($_GET['option'] == 'nfo_file_info') {
-        $content_output = nfo_file_info($table_name, $lang, $detect_encoding);
-    }
-    if ($_GET['option'] == 'xml_import') {
-        $content_output = import_xml($xml_file, $table_name, $lang, $detect_encoding);
-    }
-    if ($_GET['option'] == 'clear_cache') {
-        $content_output = clear_cache($lang);
+    switch ($_GET['option']) {
+        case 'del_all':
+            $content_output = delete_table($table_name, $lang);
+            break;
+        case 'create_new':
+            $content_output = create_table($table_name, $lang);
+            break;
+        case 'xml_file_info':
+            $content_output = xml_file_info($xml_file, $lang);
+            break;
+        case 'nfo_file_info':
+            $content_output = nfo_file_info($table_name, $lang);
+            break;
+        case 'xml_import':
+            $content_output = import_xml($xml_file, $table_name, $lang);
+            break;
+        case 'clear_cache':
+            $content_output = clear_cache($lang);
+            break;
+        default:
+            $content_output = database_list($table_name, $lang);
+            break;
     }
 } else {
-    $content_output = database_list($table_name, $lang, $detect_encoding);
+    $content_output = database_list($table_name, $lang);
 }
 
-/*#################
-* LEFT PANEL START#
-*/#################
-
+/* #################
+ * LEFT PANEL START#
+ */#################
 // Check table in database
 $sql_table = 'SHOW TABLES WHERE Tables_in_' . $mysql_database . ' = "' . $table_name . '"';
 $result_table = mysql_query($sql_table);
@@ -42,9 +46,9 @@ if (!mysql_num_rows($result_table)) {
     $table_rows = '0';
 } else {
     $check_table = '<span class="green">' . $table_name . '</span> <a href="panel.php">' . $lang['p_tab_show'] . '</a> <a href="panel.php?option=del_all" class="p_confirm" title="' . $lang['p_tab_confirm'] . '">' . $lang['p_tab_delete'] . '</a>';
-    $sql_movies = 'SELECT id FROM ' . $table_name;
+    $sql_movies = 'SELECT COUNT(*) FROM ' . $table_name;
     $result_movies = mysql_query($sql_movies);
-    $table_rows = '<span class="green">' . mysql_num_rows($result_movies) . '</span>';
+    $table_rows = '<span class="green">' . mysql_result($result_movies, 0) . '</span>';
 }
 
 // Find xml file
@@ -81,12 +85,12 @@ $chmod_files = array('export/', 'export/movies/', 'cache/');
 $check_chmod = '';
 foreach ($chmod_files as $val) {
     if (file_exists($val)) {
-    $chmod = substr(decoct(fileperms($val)), 2);
-    if ($chmod < 666) {
-        $check_chmod.= $val . ' - ' . $chmod . ' <span class="red">' . $lang['p_chmod_change'] . '!</span><br/>';
-    } else {
-        $check_chmod.= $val . ' - ' . $chmod . ' <span class="green">OK</span><br/>';
-    }
+        $chmod = substr(decoct(fileperms($val)), 2);
+        if ($chmod < 666) {
+            $check_chmod.= $val . ' - ' . $chmod . ' <span class="red">' . $lang['p_chmod_change'] . '!</span><br/>';
+        } else {
+            $check_chmod.= $val . ' - ' . $chmod . ' <span class="green">OK</span><br/>';
+        }
     } else {
         $check_chmod.= $val . ' - <span class="red">' . $lang['p_chmod_no_exists'] . '!</span><br/>';
     }
@@ -113,66 +117,28 @@ $check_cache.= '<a href="panel.php?option=clear_cache" class="p_confirm" title="
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Panel admin</title>
+        <title><?PHP echo $lang['p_html_admin_panel'] ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link type="text/css" href="css/style.css" rel="stylesheet" media="all" />
         <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
-        <script type="text/javascript">
-            $(window).load(function() {
-                
-                /* Check/uncheck all */
-                $('span.select').click(function() {
-                    $('input.check').attr('checked', true);
-                });
-                $('span.unselect').click(function() {
-                    $('input.check').removeAttr('checked', true);
-                });
-                
-                /* Confirm */
-                var yes = "<?PHP echo $lang['p_jquery_yes'] ?>";
-                var no = "<?PHP echo $lang['p_jquery_no'] ?>";
-                $(".p_confirm").click(function(){
-                    $("#p_confirm")
-                    .fadeIn()
-                    .html($(this).attr("title") + '<br/><br/><button onClick=\"location.href=\'' + $(this).attr("href") + '\'\">' + yes + '</button> <button> ' + no + ' </button>');
-                    return false;
-                });
-                $("#p_confirm").click(function() {
-                    $(this).fadeOut();
-                });
-                    
-                /* Animate buttons */    
-                $('.opacity').mouseenter(function(){
-                    $(this).animate({
-                        opacity: 0.5
-                    }, 200 );
-                });
-                $('.opacity').mouseleave(function(){
-                    $(this).animate({
-                        opacity: 1
-                    }, 200 );
-                });
-            });
-        </script>
+        <script type="text/javascript" src="js/jquery.panel.js"></script>
     </head>
     <body>
-        <div id="p_all">
-            <div id="p_panel_left">
-                <div class="p_panel_title"><?PHP echo $lang['p_html_admin_panel'] ?></div>
-                <div class="p_panel_box"><a href="index.php"><?PHP echo $lang['p_html_library'] ?></a> | <a href="panel.php"><?PHP echo $lang['p_html_admin'] ?></a> | <a href="login.php?logout=1"><?PHP echo $lang['p_html_logout'] ?></a></div>
-                <div class="p_panel_title"><?PHP echo $lang['p_html_database'] ?></div>
-                <div class="p_panel_box"><?PHP echo $lang['p_html_table'] ?>: <?PHP echo $check_table ?><br><?PHP echo $lang['p_html_movies'] ?>: <?PHP echo $table_rows ?></div>
-                <div class="p_panel_title"><?PHP echo $lang['p_html_founded_files'] ?></div>
-                <div class="p_panel_box">videodb.xml: <?PHP echo $check_xml ?><br><?PHP echo $lang['p_html_single_files'] ?>: <?PHP echo $check_nfo ?></div>
-                <div class="p_panel_title"><?PHP echo $lang['p_html_gd_lib'] ?></div>
-                <div class="p_panel_box"><?PHP echo $lang['p_html_gd_stat'] ?>: <?PHP echo $check_gd ?></div>
-                <div class="p_panel_title"><?PHP echo $lang['p_html_chmod_stat'] ?></div>
-                <div class="p_panel_box"><?PHP echo $check_chmod ?></div>
-                <div class="p_panel_title"><?PHP echo $lang['p_html_cache'] ?></div>
-                <div class="p_panel_box"><?PHP echo $check_cache ?></div>
-            </div>
-            <div id="p_panel_content"><?PHP echo $content_output ?></div>
-        </div>
-        <div id="p_confirm"></div>
+        <aside id="p_panel_left">
+            <div class="p_box_title"><?PHP echo $lang['p_html_admin_panel'] ?></div>
+            <div class="p_box_content"><a href="index.php"><?PHP echo $lang['p_html_library'] ?></a> | <a href="panel.php"><?PHP echo $lang['p_html_admin'] ?></a> | <a href="login.php?logout=1"><?PHP echo $lang['p_html_logout'] ?></a></div>
+            <div class="p_box_title"><?PHP echo $lang['p_html_database'] ?></div>
+            <div class="p_box_content"><?PHP echo $lang['p_html_table'] ?>: <?PHP echo $check_table ?><br><?PHP echo $lang['p_html_movies'] ?>: <?PHP echo $table_rows ?></div>
+            <div class="p_box_title"><?PHP echo $lang['p_html_founded_files'] ?></div>
+            <div class="p_box_content">videodb.xml: <?PHP echo $check_xml ?><br><?PHP echo $lang['p_html_single_files'] ?>: <?PHP echo $check_nfo ?></div>
+            <div class="p_box_title"><?PHP echo $lang['p_html_gd_lib'] ?></div>
+            <div class="p_box_content"><?PHP echo $lang['p_html_gd_stat'] ?>: <?PHP echo $check_gd ?></div>
+            <div class="p_box_title"><?PHP echo $lang['p_html_chmod_stat'] ?></div>
+            <div class="p_box_content"><?PHP echo $check_chmod ?></div>
+            <div class="p_box_title"><?PHP echo $lang['p_html_cache'] ?></div>
+            <div class="p_box_content"><?PHP echo $check_cache ?></div>
+        </aside>
+        <section id="p_panel_content"><?PHP echo $content_output ?></section>
+        <section id="p_confirm"><button id="yes"><?PHP echo $lang['p_jquery_yes'] ?></button> <button id="no"><?PHP echo $lang['p_jquery_no'] ?></button></section>
     </body>
 </html>

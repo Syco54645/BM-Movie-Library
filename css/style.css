@@ -22,6 +22,7 @@ img#bg {
     left:0px;
     top:0px;
     z-index:-2;
+    display: none;
 }
 a:link { 
     color:#999; 
@@ -57,40 +58,38 @@ span.orange {
 /*###########*/
 
 /* Panel top */
-div#panel_title {
-    width: 100%;
-    position: absolute;
-    left: 0px;
-    top: 0px;
+#panel_top {
     display: none;
 }
-div#title {
+#title {
     padding-top: 5px;
     padding-left: 10px;
-    margin-right: 246px;
+    margin-right: 250px;
     font-size:24px;
     font-weight:bold;
     opacity: .8;
     filter: alpha(opacity=80);
     background-color: #000;
 }
-div#tagline {
+#tagline {
     padding-top: 5px;
     padding-left: 10px;
     padding-bottom: 5px;
-    margin-right: 246px;
+    margin-right: 250px;
     font-size:14px;
     opacity: .8;
     filter: alpha(opacity=80);
     background-color: #000;
 }
-table#info {
-    margin-top: 80px;
+
+/* Panel movie info */
+#info {
+    margin-top: 60px;
     margin-left: 10px;
     border-spacing: 2px;
     display: none;
 }
-table#info td {
+#info td {
     background-color: #000;
     padding-left: 4px;
     padding-right: 4px;
@@ -98,57 +97,8 @@ table#info td {
     filter: alpha(opacity=80);
 }
 
-/* Panel bottom */
-div#panel_info {
-    width: 100%;
-    position:absolute;
-    left:0px;
-    bottom: 0px;
-    display: none;
-}
-img#img_poster {
-    width:200px;
-    height:280px;
-}
-div#poster {
-    width:200px;
-    height:280px;
-    position:absolute;
-    left:20px;
-    bottom:45px;
-    border: 1px solid #FFF;
-    display: none;
-    z-index: 1;
-}
-div#img_flag {
-    position:absolute;
-    bottom:14px;
-    left:26px;
-    z-index: 2;
-}
-img#vres, img#vtype, img#atype, img#achan {
-    width: 48px;
-    height: 18px;
-    display: none;
-}
-div#plot_text {
-    min-height: 130px;
-    padding-left: 240px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: 10px;
-    margin-right: 246px;
-    background-color:#000000;
-    opacity: .8;
-    filter: alpha(opacity=80);
-}
-span#plot {
-    font-weight:bold;
-    color: #0073f2;
-}
-
 /* Panel right */
-div#panel_right {
+#panel_right {
     width: 245px;
     height: 100%;
     position: absolute;
@@ -162,23 +112,20 @@ div#panel_right {
     padding-left: 2px;
     display: none;
 }
-div#panel_list {
+#panel_list {
     height: 100%;
     overflow: scroll;
     background-color: #000;
 }
-div.nav {
+.nav {
     padding-top: 2px;
     padding-bottom: 4px;
     color: #0073f2;
     font-weight: bold;
     text-align: center;
 }
-img.img_nav {
-    width: 12px;
-    height: 14px;
-}
-div#img_options {
+#options, #back {
+    display: block;
     height: 14px;
     width: 14px;
     padding-top: 5px;
@@ -188,17 +135,17 @@ div#img_options {
 }
 
 /* movie list table */
-table#list {
+#list {
     border-collapse: collapse;
     text-align: left;
     background-color: #000;
 }
-table#list td {
+#list td {
     padding: 3px;
     font-size: 11px;
     background-color: #000;
 }
-div.movie_title {
+.movie_title {
     width: 150px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -206,19 +153,12 @@ div.movie_title {
 }
 
 /* movie list options */
-div#img_back {
-    height: 14px;
-    width: 14px;
-    margin-top: 5px;
-    margin-right: 5px;
-    margin-left: 5px;
-    cursor: pointer;
-}
-div#panel_options {
+#panel_options {
     background-color: #000;
     display: none;
+    text-align: center;
 }
-div.bold {
+.bold {
     font-weight: bold;
     background-color: #111; 
     text-align: center;
@@ -228,10 +168,7 @@ div.bold {
     margin-left: 15px;
     padding: 2px;
 }
-div#search {
-    text-align: center;
-}
-input.search {
+.search {
     background-color:#000;
     color:#999;
     border: 1px solid #333;
@@ -240,41 +177,83 @@ input.search {
     height:20px;
     margin: auto;
 }
-input.search_img {
+.search_img {
     width:16px;
     height:16px;
     border:0px;
     vertical-align:middle;
     padding-left:5px;
 }
-div.sort {
-    width: 60px;
-    display: inline-block;
-    text-align: center;
-}
-div#genre_menu {
+#genre_menu {
     text-align: left;
     background-color:#000000;
 }
-div.genre {
+.genre {
     width: 120px;
     text-align: center;
     display: inline-block;
     margin: 1px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Panel bottom */
+#panel_bottom {
+    position:absolute;
+    left:0px;
+    bottom: 0px;
+    display: none;
+    z-index: -1;
+}
+#poster {
+    width:200px;
+    height:280px;
+    position:absolute;
+    left:20px;
+    bottom:45px;
+    border: 1px solid #FFF;
+    display: none;
+    z-index: 1;
+}
+#img_flag {
+    position:absolute;
+    bottom:14px;
+    left:26px;
+    z-index: 2;
+}
+#vres, #vtype, #atype, #achan {
+    width: 48px;
+    height: 18px;
+    display: none;
+}
+#plot_text {
+    min-height: 130px;
+    padding-left: 240px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    margin-right: 246px;
+    background-color:#000000;
+    opacity: .8;
+    filter: alpha(opacity=80);
+}
+#plot {
+    font-weight:bold;
+    color: #0073f2;
 }
 
 /*###########*/
 /* PANEL.PHP */
 /*###########*/
 
-div#p_all {
-    margin: 10px;
-}
-div#p_panel_left {
+#p_panel_left {
     float: left;
+    margin-left: 10px;
+    margin-top: 10px;
     width: 220px;
 }
-div.p_panel_title {
+.p_box_title {
     text-align: center;
     font-weight: bold;
     background-color: #222;
@@ -282,47 +261,48 @@ div.p_panel_title {
     border-left: 1px solid #333;
     border-right: 1px solid #333;
 }
-div.p_panel_box {
+.p_box_content {
     padding: 5px;
     margin-bottom: 10px;
     background-color: #111;
     border: 1px solid #333;
 }
-div#p_panel_content {
+#p_panel_content {
     margin-left: 10px;
+    margin-top: 10px;
     float: left;
     border: 1px solid #333;
     padding: 10px;
     background-color: #111;
 }
-div.p_checked {
+.p_checked {
     text-align: right;
     margin: 2px;
 }
-div.p_checked span {
+.p_checked span {
     color: #CCC;
     cursor: pointer;
 }
-table#p_table {
+#p_table {
     border: 1px solid #333;
     border-collapse: collapse;
     font-size: 11px;
 }
-table#p_table td {
+#p_table td {
     height: 22px;
     background-color: #000;
     padding-left: 5px;
     padding-right: 5px;
 }
-table#p_table td#p_title {
+#p_table td#p_title {
     width: 300px;
 }
-table#p_table td.p_top {
+#p_table td.p_top {
     text-align: center;
     font-weight: bold;
     background-color: #222;
 }
-div#p_confirm {
+#p_confirm {
     display: none;
     position: absolute;
     width:200px;
@@ -333,7 +313,7 @@ div#p_confirm {
     padding: 10px;
     text-align: center;
 }
-div#p_confirm button {
+#p_confirm button {
     background-color: #000;
     color: #CCC;
     border: 1px solid #333;
@@ -343,11 +323,11 @@ div#p_confirm button {
 /*###########*/
 /* LOGIN.PHP */
 /*###########*/
-div#l_login {
+#l_login {
     text-align: center;
     margin-top: 30px;
 }
-div.l_panel_title {
+.l_box_title {
     margin: auto;
     width: 180px;
     text-align: center;
@@ -357,7 +337,7 @@ div.l_panel_title {
     border-left: 1px solid #333;
     border-right: 1px solid #333;
 }
-div.l_panel_box {
+.l_box_content {
     padding-top: 6px;
     padding-bottom: 10px;
     margin: auto;
@@ -365,7 +345,7 @@ div.l_panel_box {
     background-color: #111;
     border: 1px solid #333;
 }
-input#l_pass {
+#l_pass {
     background-color: #000;
     border: #AAAAAA 1px solid ;
     color: #CCCCCC;
