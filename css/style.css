@@ -1,6 +1,8 @@
 @charset "utf-8";
 
-/* BODY */
+/*########*/
+/*# BODY #*/
+/*########*/
 body {
     background-color:#000;
     font-family:Arial, Helvetica, sans-serif;
@@ -22,7 +24,6 @@ img#bg {
     left:0px;
     top:0px;
     z-index:-2;
-    display: none;
 }
 a:link { 
     color:#999; 
@@ -53,22 +54,17 @@ span.orange {
     font-weight: bold;
 }
 
-/*###########*/
-/* INDEX.PHP */
-/*###########*/
+/*#############*/
+/*# INDEX.PHP #*/
+/*#############*/
 
 /* Panel top */
-#panel_top {
-    display: none;
-}
 #title {
     padding-top: 5px;
     padding-left: 10px;
     margin-right: 250px;
     font-size:24px;
     font-weight:bold;
-    opacity: .8;
-    filter: alpha(opacity=80);
     background-color: #000;
 }
 #tagline {
@@ -77,8 +73,6 @@ span.orange {
     padding-bottom: 5px;
     margin-right: 250px;
     font-size:14px;
-    opacity: .8;
-    filter: alpha(opacity=80);
     background-color: #000;
 }
 
@@ -87,14 +81,11 @@ span.orange {
     margin-top: 60px;
     margin-left: 10px;
     border-spacing: 2px;
-    display: none;
 }
 #info td {
     background-color: #000;
     padding-left: 4px;
     padding-right: 4px;
-    opacity: .8;
-    filter: alpha(opacity=80);
 }
 
 /* Panel right */
@@ -106,11 +97,8 @@ span.orange {
     top: 0px;
     border-left: 2px solid #0857b3;
     background-color:#000;
-    opacity: .9;
-    filter: alpha(opacity=90);
     padding-right: 1px;
     padding-left: 2px;
-    display: none;
 }
 #panel_list {
     height: 100%;
@@ -203,7 +191,6 @@ span.orange {
     position:absolute;
     left:0px;
     bottom: 0px;
-    display: none;
     z-index: -1;
 }
 #poster {
@@ -213,7 +200,6 @@ span.orange {
     left:20px;
     bottom:45px;
     border: 1px solid #FFF;
-    display: none;
     z-index: 1;
 }
 #img_flag {
@@ -225,7 +211,6 @@ span.orange {
 #vres, #vtype, #atype, #achan {
     width: 48px;
     height: 18px;
-    display: none;
 }
 #plot_text {
     min-height: 130px;
@@ -235,17 +220,15 @@ span.orange {
     padding-right: 10px;
     margin-right: 246px;
     background-color:#000000;
-    opacity: .8;
-    filter: alpha(opacity=80);
 }
 #plot {
     font-weight:bold;
     color: #0073f2;
 }
 
-/*###########*/
-/* PANEL.PHP */
-/*###########*/
+/*#############*/
+/*# PANEL.PHP #*/
+/*#############*/
 
 #p_panel_left {
     float: left;
@@ -320,9 +303,9 @@ span.orange {
     font-size: 10px;
 }
 
-/*###########*/
-/* LOGIN.PHP */
-/*###########*/
+/*#############*/
+/*# LOGIN.PHP #*/
+/*#############*/
 #l_login {
     text-align: center;
     margin-top: 30px;
@@ -345,7 +328,8 @@ span.orange {
     background-color: #111;
     border: 1px solid #333;
 }
-#l_pass {
+.l_pass {
+    margin: 2px;
     background-color: #000;
     border: #AAAAAA 1px solid ;
     color: #CCCCCC;

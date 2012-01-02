@@ -2,9 +2,9 @@
 require 'config.php';
 require 'function.php';
 
-/* ##########
- * #ID START#
- */##########
+/* ##################
+ * # CHECK FIRST ID #
+ */##################
 $id_sql = 'SELECT id FROM ' . $table_name . ' LIMIT 1';
 $id_result = mysql_query($id_sql);
 if (!$id_result or mysql_num_rows($id_result) < 1) {
@@ -19,13 +19,10 @@ if (!isset($_GET['id'])) {
 } else {
     $id = $_GET['id'];
 }
-/* ########
- * #ID END#
- */########
 
-/* ###############
- * ##Search START#
- */###############
+/* ##########
+ * # SEARCH #
+ */##########
 if ($search == '') {
     $search_text = '<input type="text" name="search" class="search"><input type="image" class="search_img opacity" src="img/search.png" title="' . $lang['i_search'] . '" alt="Search" />';
     $search_mysql = '%';
@@ -33,26 +30,20 @@ if ($search == '') {
     $search_text = $lang['i_result'] . ': ' . $search . ' <a href="index.php"><img class="opacity" src="img/delete.png" title="' . $lang['i_search_del'] . '" alt=""></a>';
     $search_mysql = $search;
 }
-/* #############
- * ##Search END#
- */#############
 
-/* #############
- * ##Sort START#
- */#############
+/* ########
+ * # SORT #
+ */########
 $sort_array = array(1 => $lang['i_title'], $lang['i_year'], $lang['i_rating']);
 $sort_menu = '';
 foreach ($sort_array as $key => $val) {
     $sort_menu.= ($sort == $key ? ' ' . $val . ' ' : ' <a href="index.php?sort=' . $key . '&amp;id=' . $id . '&amp;genre=' . $genre . '">' . $val . '</a> ');
 }
 $sort_mysql = array(1 => 'title ASC', 'year DESC', 'rating DESC');
-/* #########
- * Sort END#
- */#########
 
-/* #############
- * Genres START#
- */#############
+/* ##########
+ * # GENRES #
+ */##########
 $genre_sql = 'SELECT genre FROM ' . $table_name . ' ORDER by genre';
 $genre_result = mysql_query($genre_sql);
 $genre_array = array();
@@ -74,13 +65,10 @@ foreach ($genre_array as $key => $val) {
         $genre_menu.= '<div class="genre"><a href="index.php?sort=' . $sort . '&amp;id=' . $id . '&amp;genre=' . $key . '">' . $val . '</a></div>';
     }
 }
-/* ###########
- * Genres END#
- */###########
 
-/* ###########
- * #Nav START#
- */###########
+/* #############
+ * # PANEL NAV #
+ */#############
 $nav_sql = 'SELECT id, title, rating, year, genre, country FROM ' . $table_name . ' WHERE genre LIKE "%' . $genre_mysql . '%" AND title LIKE "%' . $search_mysql . '%" ORDER by ' . $sort_mysql[$sort];
 $nav_result = mysql_query($nav_sql);
 $row = mysql_num_rows($nav_result);
@@ -95,13 +83,10 @@ if ($per_page == 0) {
             ($page == $i_pages ? '<img src="img/next_g.png" alt="">' : '<a href="index.php?sort=' . $sort . '&amp;id=' . $id . '&amp;genre=' . $genre . '&amp;page=' . ($page + 1) . '&amp;search=' . $search . '"><img class="opacity" src="img/next.png" title="' . $lang['i_next'] . '" alt=""></a>') . ' ' .
             ($page == $i_pages ? '<img src="img/last_g.png" alt="">' : '<a href="index.php?sort=' . $sort . '&amp;id=' . $id . '&amp;genre=' . $genre . '&amp;page=' . $i_pages . '&amp;search=' . $search . '"><img class="opacity" src="img/last.png" title="' . $lang['i_last'] . '" alt=""></a>');
 }
-/* #########
- * #Nav END#
- */#########
 
-/* ###########
- * List START#
- */###########
+/* ##############
+ * # MOVIE LIST #
+ */##############
 if ($per_page == 0) {
     $limit_sql = '';
 } else {
@@ -119,13 +104,10 @@ while ($list = mysql_fetch_array($list_result)) {
     }
     $panel_list.= '<tr><td><div id="' . $list['id'] . '" class="movie_title"><a href="index.php?sort=' . $sort . '&amp;id=' . $list['id'] . '&amp;genre=' . $genre . '&amp;page=' . $page . '&amp;search=' . $search . '" title="' . $list['title'] . '">' . $list['title'] . '</a></div></td><td>' . $list['year'] . '</td><td>' . $list['rating'] . '</td><td>' . $flag_vres . '</td></tr>';
 }
-/* #########
- * List END#
- */#########
 
-/* ############
- * Movie START#
- */############
+/* #########
+ * # MOVIE #
+ */#########
 $movie_sql = 'SELECT id, title, rating, year, plot, tagline, runtime, genre, country, director, v_codec, v_aspect, v_width, v_height, a_codec, a_channels, img_poster, img_fanart FROM ' . $table_name . ' WHERE id=' . $id;
 $movie_result = mysql_query($movie_sql);
 $movie = mysql_fetch_array($movie_result);
@@ -163,9 +145,6 @@ if (isset($achan[$movie['a_channels']])) {
     $img_flag_achan = '<img id="achan" src="img/flags/achan_defaultsound.png" alt="">';
 }
 $img_flag = $img_flag_vres . $img_flag_vtype . $img_flag_atype . $img_flag_achan;
-/* ##########
- * Movie END#
- */##########
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -180,12 +159,12 @@ $img_flag = $img_flag_vres . $img_flag_vtype . $img_flag_atype . $img_flag_achan
         <script type="text/javascript" src="js/jquery.index.js"></script>
     </head>
     <body>
-        <img id="bg" src="cache/<?PHP echo $movie['id'] ?>-fanart.jpg" alt="" />
-        <header id="panel_top">
+        <img id="bg" src="cache/<?PHP echo $movie['id'] ?>-fanart.jpg" alt="<?PHP echo $movie["id"] ?>" />
+        <header id="panel_top" class="jq_hide">
             <section id="title"><?PHP echo $movie['title'] ?></section>
             <section id="tagline"><?PHP echo $movie['tagline'] ?></section>
         </header>
-        <table id="info">
+        <table id="info" class="jq_hide">
             <tr>
                 <td><?PHP echo $lang['i_year'] ?>:</td>
                 <td><?PHP echo $movie["year"] ?></td>
@@ -211,7 +190,7 @@ $img_flag = $img_flag_vres . $img_flag_vtype . $img_flag_atype . $img_flag_achan
                 <td><?PHP echo $movie["director"] ?></td>
             </tr>
         </table>
-        <aside id="panel_right">
+        <aside id="panel_right" class="jq_hide">
             <section id="panel_list" class="scroll">
                 <img id="options" class="opacity" src="img/options.png" title="<?PHP echo $lang['i_options'] ?>" alt="" />
                 <nav class="nav"><?PHP echo $nav ?></nav>
@@ -229,7 +208,7 @@ $img_flag = $img_flag_vres . $img_flag_vtype . $img_flag_atype . $img_flag_achan
                 <div id="genre_menu"><?PHP echo $genre_menu ?></div>
             </section>
         </aside>
-        <footer id="panel_bottom">
+        <footer id="panel_bottom" class="jq_hide">
             <section id="plot_text"><span id="plot"><?PHP echo $lang['i_plot'] ?>: </span><?PHP echo $movie['plot'] ?></section>
             <img id="poster" src="cache/<?PHP echo $movie['id'] ?>.jpg" alt="" />
             <section id="img_flag"><?PHP echo $img_flag ?></section>

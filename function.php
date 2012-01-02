@@ -1,10 +1,9 @@
 <?PHP
+/* #############
+ * # FUNCTIONS #
+ */#############
 
-/* ##########
- * Functions#
- */##########
 // Delete table
-
 function delete_table($table_name, $lang) {
     $sql_drop = 'DROP TABLE IF EXISTS ' . $table_name . ';';
     $dir = opendir('cache/');
@@ -148,10 +147,9 @@ function database_list($table_name, $lang) {
 
 // List movie from xml file
 function xml_file_info($xml_file, $lang) {
-    $xml = simplexml_load_file('export/' . $xml_file);
+    $xml = @simplexml_load_file('export/' . $xml_file);
     if (!$xml) {
-        $output = $lang['f_xml_file_error'];
-        return $output;
+        $output = '<span class="red">' . $lang['f_xml_file_error_format'] . '</span>';
     } else {
         $i = 0;
         $output = '<table id="p_table"><tr><td class="p_top"></td><td id="p_title" class="p_top">' . $lang['f_xml_movie_to_import'] . '</td><td class="p_top"><img src="img/p.png" title="' . $lang['f_xml_poster'] . '" alt=""></td><td class="p_top"><img src="img/f.png" title="' . $lang['f_xml_fanart'] . '" alt=""></td></tr>';
@@ -171,8 +169,8 @@ function xml_file_info($xml_file, $lang) {
                 $output.= '<td><img src="img/no.png" alt=""></td></tr>';
             }
         }
-        return $output;
     }
+    return $output;
 }
 
 // List nfo files
@@ -187,14 +185,14 @@ function nfo_file_info($table_name, $lang) {
             $info = pathinfo($file);
             if ($file !== "." && $file !== ".." && isset($info['extension']) && $info['extension'] == "nfo") {
                 $xml = @simplexml_load_file('export/' . $file);
-                if ($xml === FALSE) {
-                    $error.= $lang['f_xml_file_error'] . ': ' . $file;
+                if (!$xml) {
+                    $error.= '<span class="red">' . $lang['f_xml_file_error_format'] . ':</span> ' . $file . '<br/>';
                 } else {
                     // check if the nfo file exists
-                    if (file_exists('export/' . $xml->title . '.tbn')
-                            or file_exists('export/' . $xml->originaltitle . '.tbn')
-                            or file_exists(check_encoding('export/' . $xml->title . '.tbn'))
-                            or file_exists(check_encoding('export/' . $xml->originaltitle . '.tbn'))) {
+                    if (file_exists('export/' . $xml->title . '.nfo')
+                            or file_exists('export/' . $xml->originaltitle . '.nfo')
+                            or file_exists(check_encoding('export/' . $xml->title . '.nfo'))
+                            or file_exists(check_encoding('export/' . $xml->originaltitle . '.nfo'))) {
                         $i++;
                         $output.='<tr><td>' . $i . '</td><td>' . $xml->title . '</td>';
                         // check if the poster file exists
@@ -216,6 +214,8 @@ function nfo_file_info($table_name, $lang) {
                             $output.= '<td><img src="img/no.png" alt=""></td>';
                         }
                         $output.= '<td><input class="check" name="add[]" value="' . utf8_encode($file) . '" type="checkbox" /></td>';
+                    } else {
+                        $error.= '<span class="red">' . $lang['f_xml_file_error_title'] . ':</span> ' . $xml->title . '<br/>';
                     }
                 }
             }
@@ -380,5 +380,4 @@ function clear_cache($lang) {
     $output = $lang['f_cache_cleared'];
     return $output;
 }
-
 ?>

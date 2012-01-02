@@ -54,9 +54,13 @@ if (!mysql_num_rows($result_table)) {
 // Find xml file
 if (file_exists('export/' . $xml_file)) {
     $filesize = round(filesize('export/' . $xml_file) / 1048576, 2) . ' MB';
-    $xml = simplexml_load_file('export/' . $xml_file);
-    $i_movies = count($xml->movie);
-    $check_xml = '<span class="green">' . $i_movies . '</span> ' . $filesize . ' <a href="panel.php?option=xml_file_info">' . $lang['p_xml_show'] . '</a> <a href="panel.php?option=xml_import">' . $lang['p_xml_import'] . '</a>';
+    $xml = @simplexml_load_file('export/' . $xml_file);
+    if ($xml) {
+        $i_movies = count($xml->movie);
+        $check_xml = '<span class="green">' . $i_movies . '</span> ' . $filesize . ' <a href="panel.php?option=xml_file_info">' . $lang['p_xml_show'] . '</a> <a href="panel.php?option=xml_import">' . $lang['p_xml_import'] . '</a>';
+    } else {
+        $check_xml = '<span class="green">0</span> <a href="panel.php?option=xml_file_info">' . $lang['p_xml_show'] . '</a>';
+    }
 } else {
     $check_xml = '<span class="orange">' . $lang['p_xml_not_found'] . '</span>';
 }

@@ -1,11 +1,11 @@
 <?PHP
-//################
-//POLISH LANGUAGE#
-//################
+/* ###################
+ * # POLISH LANGUAGE #
+ */###################
 
-/*###########
- * INDEX.PHP#
- */##########
+/* #############
+ * # INDEX.PHP #
+ */#############
 
 $lang['i_title']                        =   'Tytuł';
 $lang['i_year']                         =   'Rok';
@@ -30,9 +30,9 @@ $lang['i_search_del']                   =   'Usuń wyniki wyszukiwania';
 $lang['i_result']                       =   'Wynik dla frazy';
 $lang['i_list_title']                   =   'Lista filmów';
 
-/*############
- *  PANEL.PHP#
- */###########
+/* #############
+ * # PANEL.PHP #
+ */#############
 
 // Check table in database
 $lang['p_tab_no_exists']                =   'nie istnieje';
@@ -81,9 +81,9 @@ $lang['p_html_gd_stat']                 =   'Status GD';
 $lang['p_html_chmod_stat']              =   'CHMOD';
 $lang['p_html_cache']                   =   'Pamięć podręczna';
 
-/*##############
- * FUNCTION.PHP#
- */#############
+/* ################
+ * # FUNCTION.PHP #
+ */################
 
 // Delete table
 $lang['f_tab_cant_delete']              =   'Nie można usunąć';
@@ -107,7 +107,8 @@ $lang['f_list_cant_del']                =   'Nie można usunąć filmu';
 $lang['f_list_successful_del']          =   'Poprawnie usunięto film';
 
 // List movies from xml file
-$lang['f_xml_file_error']               =   'Nieprawidłowy format pliku';
+$lang['f_xml_file_error_format']        =   'Nieprawidłowy format pliku';
+$lang['f_xml_file_error_title']         =   'Tytuł i nazwa pliku nie zgadzają się';
 $lang['f_xml_movie_to_import']          =   'Filmy do importowania';
 $lang['f_xml_poster']                   =   'Okładka';
 $lang['f_xml_fanart']                   =   'Plakat';
@@ -129,19 +130,20 @@ $lang['f_import_mysql_info']            =   'informacje MySql';
 // GD conversion, create poster and fanart cache
 $lang['f_cache_cleared']                =   'Wyczyszczono pamięć podręczną';
 
-/*###########
- * LOGIN.PHP#
- */##########
+/* #############
+ * # LOGIN.PHP #
+ */#############
 
 // Login panel
 $lang['l_panel_pass']                   =   'Podaj hasło';
+$lang['l_panel_login']                  =   'Zaloguj';
 $lang['l_panel_wrong']                  =   'Nieprawidłowe hasło';
 $lang['l_panel_again']                  =   'Spróbuj jeszcze raz';
 
 // html
 $lang['l_html_login']                   =   'Panel logowania';
 
-//################
-//POLISH LANGUAGE#
-//################
+/* ###################
+ * # POLISH LANGUAGE #
+ */###################
 ?>

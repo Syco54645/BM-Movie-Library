@@ -1,11 +1,11 @@
 <?PHP
-//#################
-//ENGLISH LANGUAGE#
-//#################
+/* ####################
+ * # ENGLISH LANGUAGE #
+ */####################
 
-/*###########
- * INDEX.PHP#
- */##########
+/* #############
+ * # INDEX.PHP #
+ */#############
 
 $lang['i_title']                        =   'Title';
 $lang['i_year']                         =   'Year';
@@ -30,9 +30,9 @@ $lang['i_search_del']                   =   'Delete search results';
 $lang['i_result']                       =   'Result for phrase';
 $lang['i_list_title']                   =   'Movie list';
 
-/*############
- *  PANEL.PHP#
- */###########
+/* #############
+ * # PANEL.PHP #
+ */#############
 
 // Check table in database
 $lang['p_tab_no_exists']                =   'not exists';
@@ -81,9 +81,9 @@ $lang['p_html_gd_stat']                 =   'GD Status';
 $lang['p_html_chmod_stat']              =   'CHMOD Status';
 $lang['p_html_cache']                   =   'Cache';
 
-/*##############
- * FUNCTION.PHP#
- */#############
+/* ################
+ * # FUNCTION.PHP #
+ */################
 
 // Delete table
 $lang['f_tab_cant_delete']              =   'Can\'t delete';
@@ -107,7 +107,8 @@ $lang['f_list_cant_del']                =   'Can\'t delete movie';
 $lang['f_list_successful_del']          =   'Succesful deleted movie';
 
 // List movies from xml file
-$lang['f_xml_file_error']               =   'Invalid file format';
+$lang['f_xml_file_error_format']        =   'Invalid file format';
+$lang['f_xml_file_error_title']         =   'Difrent movietitle and filename';
 $lang['f_xml_movie_to_import']          =   'Movie to import';
 $lang['f_xml_poster']                   =   'Poster';
 $lang['f_xml_fanart']                   =   'Fanart';
@@ -129,19 +130,20 @@ $lang['f_import_mysql_info']            =   'MySql info';
 // GD conversion, create poster and fanart cache
 $lang['f_cache_cleared']                =   'All cache files cleared';
 
-/*###########
- * LOGIN.PHP#
- */##########
+/* #############
+ * # LOGIN.PHP #
+ */#############
 
 // Login panel
 $lang['l_panel_pass']                   =   'Enter password';
+$lang['l_panel_login']                  =   'Login';
 $lang['l_panel_wrong']                  =   'Wrong password';
 $lang['l_panel_again']                  =   'Try again';
 
 // html
 $lang['l_html_login']                   =   'Login panel';
 
-//#################
-//ENGLISH LANGUAGE#
-//#################
+/* ####################
+ * # ENGLISH LANGUAGE #
+ */####################
 ?>
