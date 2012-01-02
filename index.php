@@ -1,6 +1,7 @@
 <?PHP
-require 'config.php';
-require 'function.php';
+header('Content-type: text/html; charset=utf-8');
+require_once 'config.php';
+require_once 'function.php';
 
 /* ##################
  * # CHECK FIRST ID #

@@ -1,7 +1,8 @@
 <?PHP
+header('Content-type: text/html; charset=utf-8');
 session_start();
-require 'config.php';
-require 'function.php';
+require_once 'config.php';
+require_once 'function.php';
 
 if (!isset($_SESSION['id']) or $_SESSION['id'] !== md5($_SERVER['REMOTE_ADDR']) . md5($panel_pass)) {
     header('location: login.php');

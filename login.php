@@ -1,6 +1,7 @@
 <?php
+header('Content-type: text/html; charset=utf-8');
 session_start();
-require 'config.php';
+require_once 'config.php';
 
 // Logout
 if (isset($_GET['logout'])) {
