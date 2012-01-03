@@ -7,10 +7,9 @@
  * Click on the import button to import movies
  */
 
-/* ##############
- * OPTIONS START#
- */##############
-
+/* #################
+ * # OPTIONS START #
+ */#################
 $mysql_host = 'localhost'; // Database host
 $mysql_port = '3306'; // Database port, default is 3306
 $mysql_login = 'login'; // Database login
@@ -22,13 +21,10 @@ $per_page = 30; // Movies per page, If you do not want to have pagination, type 
 $language = 'lang_en.php'; // The file that contains the language, file must be in the lang/ folder
 $panel_pass = 'admin'; // Password to admin panel
 
-/* ############
- * OPTIONS END#
- */############
 
-/* ####################################
- * Don't edit nothing below this line!#
- */####################################
+/* ########################################
+ * # Don't edit anything below this line! #
+ */########################################
 
 // Connection to database
 mysql_connect($mysql_host . ':' . $mysql_port, $mysql_login, $mysql_pass);
