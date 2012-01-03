@@ -1,9 +1,10 @@
 <?PHP
+
 /* #############
  * # FUNCTIONS #
  */#############
-
 // Delete table
+
 function delete_table($table_name, $lang) {
     $sql_drop = 'DROP TABLE IF EXISTS ' . $table_name . ';';
     $dir = opendir('cache/');
@@ -65,16 +66,21 @@ function format_title($title_format) {
 }
 
 // Detect encoding
-function check_encoding($check_file) {
-    $encoding = array('ISO-8859-2', 'CP1250', 'ISO-8859-1');
-    $char_out['file'] = $check_file;
-    foreach ($encoding as $val) {
-        if (file_exists(iconv('utf-8', $val . '//IGNORE', $check_file))) {
-            $char_out['file'] = iconv('utf-8', $val . '//IGNORE', $check_file);
-            break;
+function check_encoding($check_file, $mode) {
+    if ($mode === 1) {
+        $encoding = array('ISO-8859-2', 'CP1250', 'ISO-8859-1');
+        $output = $check_file;
+        foreach ($encoding as $val) {
+            if (file_exists(iconv('utf-8', $val . '//IGNORE', $check_file))) {
+                $output = iconv('utf-8', $val . '//IGNORE', $check_file);
+                break;
+            }
         }
+    } elseif ($mode === 2) {
+        $encoding = 'ISO-8859-2, windows-1251, utf-8';
+        $detect = mb_detect_encoding($check_file, $encoding);
+        $output = iconv($detect, 'utf-8', $check_file);
     }
-    $output = $char_out['file'];
     return $output;
 }
 
@@ -95,12 +101,12 @@ function database_list($table_name, $lang) {
             $i++;
             $output.= '<tr><td>' . $i . '</td>';
             $output.= '<td>' . $database['title'] . '</td>';
-            if (file_exists($database['img_poster']) or file_exists(check_encoding($database['img_poster']))) {
+            if (file_exists($database['img_poster']) or file_exists(check_encoding($database['img_poster'], 1))) {
                 $output.= '<td><img src="img/ok.png" alt=""></td>';
             } else {
                 $output.= '<td><img src="img/no.png" alt=""></td>';
             }
-            if (file_exists($database['img_fanart']) or file_exists(check_encoding($database['img_fanart']))) {
+            if (file_exists($database['img_fanart']) or file_exists(check_encoding($database['img_fanart'], 1))) {
                 $output.= '<td><img src="img/ok.png" alt=""></td>';
             } else {
                 $output.= '<td><img src="img/no.png" alt=""></td>';
@@ -158,12 +164,12 @@ function xml_file_info($xml_file, $lang) {
             $output.= '<tr><td>' . $i . '</td><td>' . $movie_val->title . '</td>';
             $title = $movie_val->title;
             $year = $movie_val->year;
-            if (file_exists('export/movies/' . format_title($title) . '_' . $year . '.tbn') or file_exists(check_encoding('export/movies/' . format_title($title) . '_' . $year . '.tbn'))) {
+            if (file_exists('export/movies/' . format_title($title) . '_' . $year . '.tbn') or file_exists(check_encoding('export/movies/' . format_title($title) . '_' . $year . '.tbn', 1))) {
                 $output.= '<td><img src="img/ok.png" alt=""></td>';
             } else {
                 $output.= '<td><img src="img/no.png" alt=""></td>';
             }
-            if (file_exists('export/movies/' . format_title($title) . '_' . $year . '-fanart.jpg') or file_exists(check_encoding('export/movies/' . format_title($title) . '_' . $year . '-fanart.jpg'))) {
+            if (file_exists('export/movies/' . format_title($title) . '_' . $year . '-fanart.jpg') or file_exists(check_encoding('export/movies/' . format_title($title) . '_' . $year . '-fanart.jpg', 1))) {
                 $output.= '<td><img src="img/ok.png" alt=""></td>';
             } else {
                 $output.= '<td><img src="img/no.png" alt=""></td></tr>';
@@ -188,35 +194,21 @@ function nfo_file_info($table_name, $lang) {
                 if (!$xml) {
                     $error.= '<span class="red">' . $lang['f_xml_file_error_format'] . ':</span> ' . $file . '<br/>';
                 } else {
-                    // check if the nfo file exists
-                    if (file_exists('export/' . $xml->title . '.nfo')
-                            or file_exists('export/' . $xml->originaltitle . '.nfo')
-                            or file_exists(check_encoding('export/' . $xml->title . '.nfo'))
-                            or file_exists(check_encoding('export/' . $xml->originaltitle . '.nfo'))) {
-                        $i++;
-                        $output.='<tr><td>' . $i . '</td><td>' . $xml->title . '</td>';
-                        // check if the poster file exists
-                        if (file_exists('export/' . $xml->title . '.tbn')
-                                or file_exists('export/' . $xml->originaltitle . '.tbn')
-                                or file_exists(check_encoding('export/' . $xml->title . '.tbn'))
-                                or file_exists(check_encoding('export/' . $xml->originaltitle . '.tbn'))) {
-                            $output.= '<td><img src="img/ok.png" alt=""></td>';
-                        } else {
-                            $output.= '<td><img src="img/no.png" alt=""></td>';
-                        }
-                        // check if the fanart file exists
-                        if (file_exists('export/' . $xml->title . '-fanart.jpg')
-                                or file_exists('export/' . $xml->originaltitle . '-fanart.jpg')
-                                or file_exists(check_encoding('export/' . $xml->title . '-fanart.jpg'))
-                                or file_exists(check_encoding('export/' . $xml->originaltitle . '-fanart.jpg'))) {
-                            $output.= '<td><img src="img/ok.png" alt=""></td>';
-                        } else {
-                            $output.= '<td><img src="img/no.png" alt=""></td>';
-                        }
-                        $output.= '<td><input class="check" name="add[]" value="' . utf8_encode($file) . '" type="checkbox" /></td>';
+                    $i++;
+                    $output.='<tr><td>' . $i . '</td><td>' . $xml->title . '</td>';
+                    // check if the poster file exists
+                    if (file_exists('export/' . $info['filename'] . '.tbn')) {
+                        $output.= '<td><img src="img/ok.png" alt=""></td>';
                     } else {
-                        $error.= '<span class="red">' . $lang['f_xml_file_error_title'] . ':</span> ' . $xml->title . '<br/>';
+                        $output.= '<td><img src="img/no.png" alt=""></td>';
                     }
+                    // check if the fanart file exists
+                    if (file_exists('export/' . $info['filename'] . '-fanart.jpg')) {
+                        $output.= '<td><img src="img/ok.png" alt=""></td>';
+                    } else {
+                        $output.= '<td><img src="img/no.png" alt=""></td>';
+                    }
+                    $output.= '<td><input class="check" name="add[]" value="' . utf8_encode($info['filename']) . '" type="checkbox" /></td>';
                 }
             }
         }
@@ -235,13 +227,14 @@ function import_xml($xml_file, $table_name, $lang) {
     if (!is_array($xml_file)) {
         $xml = simplexml_load_file('export/' . $xml_file);
         $xml_movie = $xml->movie;
-        //rename('export/' . $xml_file, 'export/' . $xml_file . '.bak');
+        rename('export/' . $xml_file, 'export/' . $xml_file . '.bak');
     } else {
-        foreach ($xml_file as $file) {
-            $file = utf8_decode($file);
-            $xml = simplexml_load_file('export/' . $file);
+        foreach ($xml_file as $val) {
+            $filename = utf8_decode($val);
+            $xml = simplexml_load_file('export/' . $filename . '.nfo');
+            $xml->filename = $filename;
             $xml_movie[] = $xml;
-            //rename('export/' . $file, 'export/' . $file . '.bak');
+            rename('export/' . $file, 'export/' . $file . '.bak');
         }
     }
     $e = 0;
@@ -258,27 +251,24 @@ function import_xml($xml_file, $table_name, $lang) {
             $country[] = (string) $country_val;
         }
         $f_title = format_title($movie_val->title);
-        if (file_exists(check_encoding('export/' . $movie_val->title . '.tbn'))) {
-            $img_poster = 'export/' . $movie_val->title . '.tbn';
-        } elseif (file_exists(check_encoding('export/' . $movie_val->originaltitle . '.tbn'))) {
-            $img_poster = 'export/' . $movie_val->originaltitle . '.tbn';
-        } elseif (file_exists(check_encoding('export/movies/' . $f_title . '_' . $movie_val->year . '.tbn'))) {
+
+        // check if the poster file exists add path to database 
+        if (file_exists(check_encoding('export/' . $movie_val->filename . '.tbn', 1))) {
+            $img_poster = check_encoding('export/' . $movie_val->filename . '.tbn', 2);
+        } elseif (file_exists(check_encoding('export/movies/' . $f_title . '_' . $movie_val->year . '.tbn', 1))) {
             $img_poster = 'export/movies/' . $f_title . '_' . $movie_val->year . '.tbn';
         } else {
             $img_poster = 'img/d_poster.jpg';
         }
 
-
-        if (file_exists(check_encoding('export/' . $movie_val->title . '-fanart.jpg'))) {
-            $img_fanart = 'export/' . $movie_val->title . '-fanart.jpg';
-        } elseif (file_exists(check_encoding('export/' . $movie_val->originaltitle . '-fanart.jpg'))) {
-            $img_fanart = 'export/' . $movie_val->originaltitle . '-fanart.jpg';
-        } elseif (file_exists(check_encoding('export/movies/' . $f_title . '_' . $movie_val->year . '-fanart.jpg'))) {
+        // check if the fanart file exists add path to database
+        if (file_exists(check_encoding('export/' . $movie_val->filename . '-fanart.jpg', 1))) {
+            $img_fanart = check_encoding('export/' . $movie_val->filename . '-fanart.jpg', 2);
+        } elseif (file_exists(check_encoding('export/movies/' . $f_title . '_' . $movie_val->year . '-fanart.jpg', 1))) {
             $img_fanart = 'export/movies/' . $f_title . '_' . $movie_val->year . '-fanart.jpg';
         } else {
             $img_fanart = 'img/d_fanart.jpg';
         }
-
 
         $sql_insert = 'INSERT INTO `' . $table_name . '` (
             `title`,
@@ -339,7 +329,7 @@ function import_xml($xml_file, $table_name, $lang) {
 // GD conversion, create poster and fanart cache
 function gd_convert($id, $poster, $fanart) {
     $cache_poster = 'cache/' . $id . '.jpg';
-    $poster = check_encoding($poster);
+    $poster = check_encoding($poster, 1);
     if (!file_exists($cache_poster) && file_exists($poster)) {
 
         // create poster
@@ -353,7 +343,7 @@ function gd_convert($id, $poster, $fanart) {
         imagejpeg($img_temp, $cache_poster, 80);
     }
     $cache_fanart = 'cache/' . $id . '-fanart.jpg';
-    $fanart = check_encoding($fanart);
+    $fanart = check_encoding($fanart, 1);
     if (!file_exists($cache_fanart) && file_exists($fanart)) {
 
         // create fanart
@@ -380,4 +370,5 @@ function clear_cache($lang) {
     $output = $lang['f_cache_cleared'];
     return $output;
 }
+
 ?>
