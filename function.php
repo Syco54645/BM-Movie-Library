@@ -3,8 +3,8 @@
 /* #############
  * # FUNCTIONS #
  */#############
-// Delete table
 
+// Delete table
 function delete_table($table_name, $lang) {
     $sql_drop = 'DROP TABLE IF EXISTS ' . $table_name . ';';
     $dir = opendir('cache/');
@@ -234,7 +234,7 @@ function import_xml($xml_file, $table_name, $lang) {
             $xml = simplexml_load_file('export/' . $filename . '.nfo');
             $xml->filename = $filename;
             $xml_movie[] = $xml;
-            rename('export/' . $file, 'export/' . $file . '.bak');
+            rename('export/' . $filename . '.nfo', 'export/' . $filename . '.nfo.bak');
         }
     }
     $e = 0;
@@ -258,7 +258,7 @@ function import_xml($xml_file, $table_name, $lang) {
         } elseif (file_exists(check_encoding('export/movies/' . $f_title . '_' . $movie_val->year . '.tbn', 1))) {
             $img_poster = 'export/movies/' . $f_title . '_' . $movie_val->year . '.tbn';
         } else {
-            $img_poster = 'img/d_poster.jpg';
+            $img_poster = 'no_poster';
         }
 
         // check if the fanart file exists add path to database
@@ -267,7 +267,7 @@ function import_xml($xml_file, $table_name, $lang) {
         } elseif (file_exists(check_encoding('export/movies/' . $f_title . '_' . $movie_val->year . '-fanart.jpg', 1))) {
             $img_fanart = 'export/movies/' . $f_title . '_' . $movie_val->year . '-fanart.jpg';
         } else {
-            $img_fanart = 'img/d_fanart.jpg';
+            $img_fanart = 'no_fanart';
         }
 
         $sql_insert = 'INSERT INTO `' . $table_name . '` (
@@ -301,7 +301,7 @@ function import_xml($xml_file, $table_name, $lang) {
             "' . (isset($country) ? implode(' / ', $country) : '') . '",
             "' . (isset($movie_val->director) ? $movie_val->director : '') . '",
             "' . (isset($movie_val->fileinfo->streamdetails->video->codec) ? $movie_val->fileinfo->streamdetails->video->codec : '') . '",
-            "' . (isset($movie_val->fileinfo->streamdetails->video->aspect) ? $movie_val->fileinfo->streamdetails->video->aspect : '') . '",
+            "' . (isset($movie_val->fileinfo->streamdetails->video->aspect) ? $movie_val->fileinfo->streamdetails->video->aspect : '0') . '",
             "' . (isset($movie_val->fileinfo->streamdetails->video->width) ? $movie_val->fileinfo->streamdetails->video->width : '') . '",
             "' . (isset($movie_val->fileinfo->streamdetails->video->height) ? $movie_val->fileinfo->streamdetails->video->height : '') . '",
             "' . (isset($movie_val->fileinfo->streamdetails->audio->codec) ? $movie_val->fileinfo->streamdetails->audio->codec : '') . '",
@@ -370,5 +370,4 @@ function clear_cache($lang) {
     $output = $lang['f_cache_cleared'];
     return $output;
 }
-
 ?>

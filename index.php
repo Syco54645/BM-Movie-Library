@@ -113,9 +113,20 @@ $movie_sql = 'SELECT id, title, rating, year, plot, tagline, runtime, genre, cou
 $movie_result = mysql_query($movie_sql);
 $movie = mysql_fetch_array($movie_result);
 
-if (!file_exists('cache/' . $movie['id'] . '.jpg') or !file_exists('cache/' . $movie['id'] . '-fanart.jpg')) {
-    gd_convert($movie['id'], $movie['img_poster'], $movie['img_fanart']);
+$poster = 'cache/' . $movie['id'] . '.jpg'; 
+if ($movie['img_poster'] == 'no_poster') {
+    $poster = 'img/d_poster.jpg';
+} elseif (!file_exists('cache/' . $movie['id'] . '.jpg')) {
+    gd_convert($movie['id'], $movie['img_poster'], '');
 }
+
+$fanart = 'cache/' . $movie['id'] . '-fanart.jpg';
+if ($movie['img_fanart'] == 'no_fanart') {
+    $poster = 'img/d_fanart.jpg';
+} elseif (!file_exists('cache/' . $movie['id'] . '-fanart.jpg')) {
+    gd_convert($movie['id'], '', $movie['img_fanart']);
+}
+
 // video resolution
 $i = 0;
 foreach ($width_height as $key => $val) {
@@ -160,7 +171,7 @@ $img_flag = $img_flag_vres . $img_flag_vtype . $img_flag_atype . $img_flag_achan
         <script type="text/javascript" src="js/jquery.index.js"></script>
     </head>
     <body>
-        <img id="bg" src="cache/<?PHP echo $movie['id'] ?>-fanart.jpg" alt="<?PHP echo $movie["id"] ?>" />
+        <img id="bg" src="<?PHP echo $fanart ?>" alt="<?PHP echo $movie["id"] ?>" />
         <header id="panel_top" class="jq_hide">
             <section id="title"><?PHP echo $movie['title'] ?></section>
             <section id="tagline"><?PHP echo $movie['tagline'] ?></section>
@@ -211,7 +222,7 @@ $img_flag = $img_flag_vres . $img_flag_vtype . $img_flag_atype . $img_flag_achan
         </aside>
         <footer id="panel_bottom" class="jq_hide">
             <section id="plot_text"><span id="plot"><?PHP echo $lang['i_plot'] ?>: </span><?PHP echo $movie['plot'] ?></section>
-            <img id="poster" src="cache/<?PHP echo $movie['id'] ?>.jpg" alt="" />
+            <img id="poster" src="<?PHP echo $poster ?>" alt="" />
             <section id="img_flag"><?PHP echo $img_flag ?></section>
         </footer>
     </body>
