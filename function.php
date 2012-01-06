@@ -26,10 +26,10 @@ function delete_table($table_name, $lang) {
 // Create empty table
 function create_table($table_name, $lang) {
     $sql_create = 'CREATE TABLE ' . $table_name . ' (
-        `id` int(5) AUTO_INCREMENT UNIQUE NOT NULL,
+        `id` int(4) AUTO_INCREMENT UNIQUE NOT NULL,
         `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci UNIQUE NOT NULL,
         `originaltitle` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-        `rating` float NOT NULL,
+        `rating` varchar(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
         `year` int(4) NOT NULL,
         `plot` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
         `tagline` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -38,7 +38,7 @@ function create_table($table_name, $lang) {
         `country` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
         `director` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
         `v_codec` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-        `v_aspect` float NOT NULL,
+        `v_aspect` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
         `v_width` int(4) NOT NULL,
         `v_height` int(4) NOT NULL,
         `a_codec` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -292,7 +292,7 @@ function import_xml($xml_file, $table_name, $lang) {
         ) VALUES (
             "' . addslashes($movie_val->title) . '",
             "' . addslashes($movie_val->originaltitle) . '",    
-            "' . (isset($movie_val->rating) ? $movie_val->rating : '') . '",
+            "' . (isset($movie_val->rating) ? round($movie_val->rating, 1) : '') . '",
             "' . (isset($movie_val->year) ? $movie_val->year : '') . '",
             "' . (isset($movie_val->plot) ? addslashes($movie_val->plot) : '') . '",
             "' . (isset($movie_val->tagline) ? addslashes($movie_val->tagline) : '') . '",
@@ -300,12 +300,12 @@ function import_xml($xml_file, $table_name, $lang) {
             "' . (isset($genre) ? implode(' / ', $genre) : '') . '",
             "' . (isset($country) ? implode(' / ', $country) : '') . '",
             "' . (isset($movie_val->director) ? $movie_val->director : '') . '",
-            "' . (isset($movie_val->fileinfo->streamdetails->video->codec) ? $movie_val->fileinfo->streamdetails->video->codec : '') . '",
+            "' . (isset($movie_val->fileinfo->streamdetails->video->codec) ? $movie_val->fileinfo->streamdetails->video->codec : '0') . '",
             "' . (isset($movie_val->fileinfo->streamdetails->video->aspect) ? $movie_val->fileinfo->streamdetails->video->aspect : '0') . '",
-            "' . (isset($movie_val->fileinfo->streamdetails->video->width) ? $movie_val->fileinfo->streamdetails->video->width : '') . '",
-            "' . (isset($movie_val->fileinfo->streamdetails->video->height) ? $movie_val->fileinfo->streamdetails->video->height : '') . '",
-            "' . (isset($movie_val->fileinfo->streamdetails->audio->codec) ? $movie_val->fileinfo->streamdetails->audio->codec : '') . '",
-            "' . (isset($movie_val->fileinfo->streamdetails->audio->channels) ? $movie_val->fileinfo->streamdetails->audio->channels : '') . '",
+            "' . (isset($movie_val->fileinfo->streamdetails->video->width) ? $movie_val->fileinfo->streamdetails->video->width : '0') . '",
+            "' . (isset($movie_val->fileinfo->streamdetails->video->height) ? $movie_val->fileinfo->streamdetails->video->height : '0') . '",
+            "' . (isset($movie_val->fileinfo->streamdetails->audio->codec) ? $movie_val->fileinfo->streamdetails->audio->codec : '0') . '",
+            "' . (isset($movie_val->fileinfo->streamdetails->audio->channels) ? $movie_val->fileinfo->streamdetails->audio->channels : '0') . '",
             "' . $img_poster . '",
             "' . $img_fanart . '"
             );';

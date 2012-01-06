@@ -122,7 +122,7 @@ if ($movie['img_poster'] == 'no_poster') {
 
 $fanart = 'cache/' . $movie['id'] . '-fanart.jpg';
 if ($movie['img_fanart'] == 'no_fanart') {
-    $poster = 'img/d_fanart.jpg';
+    $fanart = 'img/d_fanart.jpg';
 } elseif (!file_exists('cache/' . $movie['id'] . '-fanart.jpg')) {
     gd_convert($movie['id'], '', $movie['img_fanart']);
 }
