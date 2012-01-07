@@ -29,7 +29,7 @@ $(window).load(function() {
         animateScroll: true,
         stickToTop: true
     });
-    if (id > 1) {
+    if (id > 1 && ($('div#'+id).length)) {
         var api = div_scroll.data('jsp');
         api.scrollToElement('#'+id,true);
     }
