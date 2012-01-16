@@ -56,7 +56,7 @@ while ($genre_mysql_array = mysql_fetch_array($genre_result)) {
     }
 }
 $genre_menu = '<div class="genre">' . ($genre == 'all' ? $lang['i_all'] : '<a href="index.php?sort=' . $sort . '&amp;id=' . $id . '&amp;genre=all">' . $lang['i_all'] . '</a>') . '</div>';
-$genre_sort = sort($genre_array);
+sort($genre_array);
 $genre_mysql = '%';
 foreach ($genre_array as $key => $val) {
     if ((string) $key === (string) $genre) {

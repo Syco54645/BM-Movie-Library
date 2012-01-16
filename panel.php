@@ -45,7 +45,7 @@ if (isset($_GET['option'])) {
             $content_output = database_list($col, $mode, $lang);
             break;
         case 'del_all':
-            $content_output = ($mode == 1 ? $lang['p_mode_safe'] : delete_table($mysql_database, $mode, $lang));
+            $content_output = ($mode == 1 ? $lang['p_mode_safe'] : delete_table($lang));
             break;
         case 'create_table':
             $content_output = ($mode == 1 ? $lang['p_mode_safe'] : create_table($col, $lang));
@@ -66,7 +66,7 @@ if (isset($_GET['option'])) {
             $content_output = delete_cache($lang);
             break;
         case 'create_cache':
-            $content_output = create_cache($col, $mode, $lang);
+            $content_output = create_cache($col, $lang);
             break;
         case 'clear_cache':
             $content_output = clear_cache($col, $lang);
@@ -162,10 +162,12 @@ if (!$connect_remote) {
     $local_sql = 'SELECT ' . $col['id_movie'] . ' FROM movie ORDER BY ' . $col['id_movie'];
     $local_result = mysql_query($local_sql);
     $id_local_assoc = array();
-    while ($local = mysql_fetch_assoc($local_result)) {
-        array_push($id_local_assoc, $local[$col['id_movie']]);
+    if ($local_result) {
+        while ($local = mysql_fetch_assoc($local_result)) {
+            array_push($id_local_assoc, $local[$col['id_movie']]);
+        }
     }
-
+    
     // Set movie to remove
     $i = 0;
     foreach ($id_local_assoc as $val) {

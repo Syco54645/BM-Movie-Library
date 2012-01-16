@@ -8,7 +8,7 @@
  * # Delete table #
  */################
 
-function delete_table($mysql_database, $mode, $lang) {
+function delete_table($lang) {
     $drop_movie_sql = 'DROP TABLE IF EXISTS movie';
     $drop_streamdetails_sql = 'DROP TABLE IF EXISTS streamdetails';
     $dir = opendir('cache/');
@@ -372,8 +372,8 @@ function import_xml($xml_file, $col, $lang) {
             $e++;
             $error.= '<tr><td>' . $e . '</td><td>' . $movie_val->title . '</td><td><img src="img/no.png" title="' . addslashes(mysql_error()) . '" alt=""></td></tr>';
         } else {
-            $insert_streamdetails_0_result = mysql_query($insert_streamdetails_0_sql);
-            $insert_streamdetails_1_result = mysql_query($insert_streamdetails_1_sql);
+            mysql_query($insert_streamdetails_0_sql);
+            mysql_query($insert_streamdetails_1_sql);
             $i++;
             $ok.= '<tr><td>' . $i . '</td><td>' . $movie_val->title . '</td><td><img src="img/ok.png" alt=""></td></tr>';
         }
@@ -446,8 +446,8 @@ function synch_database($col, $mysql_database, $connect, $remote_connection, $la
         $delete_movie_sql = 'DELETE FROM movie WHERE ' . $col['id_movie'] . ' = "' . $val . '"';
         $delete_stream_sql = 'DELETE FROM streamdetails WHERE ' . $col['id_file'] . ' = "' . $file_to_remove[$key] . '"';
         mysql_select_db($mysql_database, $connect);
-        $delete_movie_result = mysql_query($delete_movie_sql, $connect);
-        $delete_stream_result = mysql_query($delete_stream_sql, $connect);
+        mysql_query($delete_movie_sql, $connect);
+        mysql_query($delete_stream_sql, $connect);
         if (file_exists('cache/' . $val . '.jpg')) {
             unlink('cache/' . $val . '.jpg');
         }
@@ -560,9 +560,9 @@ function synch_database($col, $mysql_database, $connect, $remote_connection, $la
         mysql_select_db($mysql_database, $connect);
         mysql_query('SET CHARACTER SET utf8', $connect);
         mysql_query('SET NAMES utf8', $connect);
-        $insert_result = mysql_query($insert_sql, $connect);
-        $insert_streamdetails_0_result = mysql_query($insert_streamdetails_0_sql, $connect);
-        $insert_streamdetails_1_result = mysql_query($insert_streamdetails_1_sql, $connect);
+        mysql_query($insert_sql, $connect);
+        mysql_query($insert_streamdetails_0_sql, $connect);
+        mysql_query($insert_streamdetails_1_sql, $connect);
 
         echo '<script>window.location="panel.php?option=synch";</script >';
     } else {
@@ -634,7 +634,7 @@ function delete_cache($lang) {
  * # Create Cache files #
  */######################
 
-function create_cache($col, $mode, $lang) {
+function create_cache($col, $lang) {
 
     $limit = 1;
     if (!isset($_GET['start'])) {
