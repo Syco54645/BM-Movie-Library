@@ -1,11 +1,11 @@
 <?PHP
-/**
- * This is the configuration file.
- * Edit options for connecting to the database.
- * Copy the xml file with a movie library exported from XBMC
- * Go to the panel.php in web browser
- * Click on the import button to import movies
- */
+/* #############################################################
+ * # This is the configuration file.                           #
+ * # Edit options for connecting to the database.              #
+ * # Copy the xml file with a movie library exported from XBMC #
+ * # Go to the panel.php in web browser                        #
+ * # Click on the import button to import movies               #
+ */#############################################################
 
 /* #################
  * # OPTIONS START #
@@ -15,27 +15,41 @@ $mysql_port = '3306'; // Database port, default is 3306
 $mysql_login = 'login'; // Database login
 $mysql_pass = 'pass'; // Database password
 $mysql_database = 'database'; // Database name
-$table_name = 'xbmc_movie'; // Table name
 $xml_file = 'videodb.xml'; // File with movie library, default is videodb.xml
 $per_page = 30; // Movies per page, If you do not want to have pagination, type 0
 $language = 'lang_en.php'; // The file that contains the language, file must be in the lang/ folder
 $panel_pass = 'admin'; // Password to admin panel
 
+// Remote database
+$mysql_host_remote = 'host.com'; // Database host
+$mysql_port_remote = '3306'; // Database port, default is 3306
+$mysql_login_remote = 'login'; // Database login
+$mysql_pass_remote = 'pass'; // Database password
+$mysql_database_remote = 'database'; // Database name
 
 /* ########################################
  * # Don't edit anything below this line! #
  */########################################
 
 // Connection to database
-mysql_connect($mysql_host . ':' . $mysql_port, $mysql_login, $mysql_pass);
-mysql_select_db($mysql_database);
+$connect = @mysql_connect($mysql_host . ':' . $mysql_port, $mysql_login, $mysql_pass);
+if (!$connect) {
+    die('Could not connect: ' . mysql_error());
+}
+$select = @mysql_select_db($mysql_database);
+if (!$select) {
+    die('Could not connect: ' . mysql_error());
+}
+
+// Connection to remote
+$remote_connection = array($mysql_host_remote, $mysql_port_remote, $mysql_login_remote, $mysql_pass_remote, $mysql_database_remote);
 
 // Sets utf8 connections
 mysql_query('SET CHARACTER SET utf8');
 mysql_query('SET NAMES utf8');
 
 // Language 
-require('lang/' . $language);
+require 'lang/' . $language;
 
 // Video resolution
 $vres_array = array('sd', 480, 576, 540, 720, 1080);
@@ -139,4 +153,32 @@ foreach ($var as $key => $val) {
         $$key = $val;
     }
 }
+
+// Database column
+$col['id_movie']        =   'idMovie';
+$col['id_file']         =   'idFile';
+$col['title']           =   'c00';
+$col['plot']            =   'c01';
+$col['outline']         =   'c02';
+$col['tagline']         =   'c03';
+$col['votes']           =   'c04';
+$col['rating']          =   'c05';
+$col['credits']         =   'c06';
+$col['year']            =   'c07';
+$col['poster']          =   'c08';
+$col['imdb_id']         =   'c09';
+$col['title_format']    =   'c10';
+$col['runtime']         =   'c11';
+$col['mpaa']            =   'c12';
+$col['top250']          =   'c13';
+$col['genre']           =   'c14';
+$col['director']        =   'c15';
+$col['originaltitle']   =   'c16';
+$col['thumb_url']       =   'c17';
+$col['studio']          =   'c18';
+$col['trailer']         =   'c19';
+$col['fanart']          =   'c20';
+$col['country']         =   'c21';
+$col['file_path']       =   'c22';
+$col['id_path']         =   'c23';
 ?>
