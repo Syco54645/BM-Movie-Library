@@ -524,8 +524,8 @@ function synch_database($col, $mysql_database, $connect, $remote_connection, $la
       "' . addslashes($movie[$col['trailer']]) . '",
       "' . addslashes($movie[$col['fanart']]) . '",
       "' . addslashes($movie[$col['country']]) . '",
-      "' . addslashes($movie[$col['file_path']]) . '",
-      "' . addslashes($movie[$col['id_path']]) . '"
+      "' . (isset($movie[$col['file_path']]) ? addslashes($movie[$col['file_path']]) : '') . '",
+      "' . (isset($movie[$col['id_path']]) ? addslashes($movie[$col['id_path']]) : '') . '"
       )';
 
         $insert_streamdetails_0_sql = 'INSERT INTO `streamdetails` (
