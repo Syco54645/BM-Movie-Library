@@ -15,6 +15,7 @@ elseif (!isset($_POST['pass'])) {
 } else {
     if ($_POST['pass'] === $panel_pass) {
         $_SESSION['id'] = md5($_SERVER['REMOTE_ADDR']) . md5($panel_pass);
+        $content_output = '';
         header('location: panel.php');
     } else {
         $content_output = $lang['l_panel_wrong'] . '. <a href="login.php">' . $lang['l_panel_again'] . '</a>';

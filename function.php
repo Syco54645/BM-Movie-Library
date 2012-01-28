@@ -4,6 +4,39 @@
  * # FUNCTIONS #
  */#############
 
+/* #################
+ * # Check trailer #
+ */#################
+
+function trailer($title, $year, $originaltitle, $url_trailer) {
+    $check_url_trailer = preg_match('/youtube.*?id=(.*?)$/', $url_trailer, $val);
+    if ($check_url_trailer == 1) {
+        $id_yt = $val[1];
+    } else {
+        if ($originaltitle !== '') {
+            $title = $originaltitle;
+        }
+        $title = str_replace(' ', '+', $title);
+        $title = str_replace('&', '', $title);
+        $url = 'http://gdata.youtube.com/feeds/api/videos?v=2&format=5&alt=jsonc&max-results=1&q=allintitle:' . $title . '+' . $year . '+trailer+-review&hl=en&gl=US';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_REFERER, 'http://gdata.youtube.com');
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:9.0.1) Gecko/20100101 Firefox/9.0.1');
+        $content = curl_exec($ch);
+        curl_close($ch);
+        $json = json_decode($content);
+        if (!isset($json->data->items[0]->id)) {
+             $id_yt = '';
+        } else {
+            $id_yt = $json->data->items[0]->id;
+        }
+    }
+    return $id_yt;
+}
+
 /* ################
  * # Delete table #
  */################
@@ -459,7 +492,8 @@ function synch_database($col, $mysql_database, $connect, $remote_connection, $la
     // Add new movies
     $count = count($id_to_add);
     if ($count !== 0) {
-        echo $lang['f_synch_remained'] . ': ' . $count;
+        echo '<body style="background-color:#000; color:#FFF">';
+        echo $lang['f_synch_remained'] . ': ' . $count . '<br />' . $lang['f_synch_id'] . ': ' . $id_to_add[0];
         $select_sql = 'SELECT * FROM movie WHERE ' . $col['id_movie'] . ' = "' . $id_to_add[0] . '"';
         mysql_select_db($mysql_database_remote, $connect_remote);
         mysql_query('SET CHARACTER SET utf8', $connect_remote);
@@ -560,11 +594,16 @@ function synch_database($col, $mysql_database, $connect, $remote_connection, $la
         mysql_select_db($mysql_database, $connect);
         mysql_query('SET CHARACTER SET utf8', $connect);
         mysql_query('SET NAMES utf8', $connect);
-        mysql_query($insert_sql, $connect);
-        mysql_query($insert_streamdetails_0_sql, $connect);
-        mysql_query($insert_streamdetails_1_sql, $connect);
-
-        echo '<script>window.location="panel.php?option=synch";</script >';
+        $insert = mysql_query($insert_sql, $connect);
+        if (!$insert) {
+            echo '<br />' . $lang['f_synch_error'] . ': ' . mysql_error($connect);
+            exit;
+        } else {
+            mysql_query($insert_streamdetails_0_sql, $connect);
+            mysql_query($insert_streamdetails_1_sql, $connect);
+        }
+        $output = '';
+        echo '<script>window.location="panel.php?option=synch";</script>';
     } else {
         $output = $lang['f_synch_ok'];
     }
@@ -641,12 +680,12 @@ function create_cache($col, $lang) {
         $count_movies_sql = 'SELECT COUNT(*) FROM movie';
         $count_movies_result = mysql_query($count_movies_sql);
         $count = mysql_result($count_movies_result, 0);
-        $start = 1;
+        $start = 0;
     } else {
         $start = $_GET['start'];
         $count = $_GET['count'];
     }
-    echo $lang['f_cache_created'] . ': ' . $start . ' / ' . $count . ' ' . $lang['f_cache_wait'] . '...';
+    echo $lang['f_cache_created'] . ': ' . ($start+1) . ' / ' . $count . ' ' . $lang['f_cache_wait'] . '...';
     $create_cache_sql = 'SELECT ' . $col['id_movie'] . ', ' . $col['poster'] . ', ' . $col['fanart'] . ' FROM movie ORDER BY ' . $col['id_movie'] . ' LIMIT ' . $start . ', ' . $limit;
     $create_cache_result = mysql_query($create_cache_sql);
     while ($cache = mysql_fetch_array($create_cache_result)) {
@@ -660,9 +699,9 @@ function create_cache($col, $lang) {
         $start++;
     }
     if ($start < $count) {
-        echo '<script>window.location="panel.php?option=create_cache&start=' . $start . '&count=' . $count . '";</script >';
+        echo '<script>window.location="panel.php?option=create_cache&start=' . $start . '&count=' . $count . '";</script>';
     } else {
-        echo '<script>window.location="panel.php";</script >';
+        echo '<script>window.location="panel.php";</script>';
     }
 }
 

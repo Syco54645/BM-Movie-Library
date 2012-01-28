@@ -115,7 +115,7 @@ $lang['f_list_select_all']              =   'Select all';
 $lang['f_list_unselect_all']            =   'Unselect all';
 $lang['f_list_movies']                  =   'Movie list';
 $lang['f_list_poster']                  =   'Poster URL';
-$lang['f_list_fanart']                  =   'Fanart RL';
+$lang['f_list_fanart']                  =   'Fanart URL';
 $lang['f_list_poster_thumb']            =   'Poster cache';
 $lang['f_list_fanart_thumb']            =   'Fanart cache';
 $lang['f_list_empty_tab']               =   'Table is empty';
@@ -148,6 +148,8 @@ $lang['f_import_mysql_info']            =   'MySql info';
 $lang['f_synch_could_connect']          =   'Could not connect';
 $lang['f_synch_could_select']           =   'Could not select';
 $lang['f_synch_remained']               =   'Movies remained';
+$lang['f_synch_id']                     =   'Movie id';
+$lang['f_synch_error']                  =   'Error';
 $lang['f_synch_ok']                     =   'Database is synchronized';
 
 // GD conversion, create poster and fanart cache

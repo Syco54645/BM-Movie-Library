@@ -12,6 +12,7 @@ body {
     padding: 0px;
     margin: 0px;
     outline: none;
+    min-width: 960px;
 }
 img {
     vertical-align: middle;
@@ -78,7 +79,8 @@ span.orange {
 
 /* Panel movie info */
 #info {
-    margin-top: 60px;
+    position: absolute;
+    margin-top: 10px;
     margin-left: 10px;
     border-spacing: 2px;
 }
@@ -86,6 +88,34 @@ span.orange {
     background-color: #000;
     padding-left: 4px;
     padding-right: 4px;
+}
+
+/* Trailer */
+#trailer {
+    width: 470px;
+    height: 320px;
+    border: 1px solid #fff;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    float: bottom;
+    display: none;
+}
+#trailer_play {
+    position: absolute;
+    top: 70px;
+    right: 260px;
+    width: 120px;
+    height: 90px;
+    cursor: pointer;
+}
+#trailer_thumb {
+    position: absolute;
+    top: 70px;
+    right: 260px;
+    border: 1px solid #fff;
+    width: 120px;
+    height: 90px;
 }
 
 /* Panel right */

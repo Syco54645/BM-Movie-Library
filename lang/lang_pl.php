@@ -148,6 +148,8 @@ $lang['f_import_mysql_info']            =   'informacje MySql';
 $lang['f_synch_could_connect']          =   'Nie można połączyć';
 $lang['f_synch_could_select']           =   'Nie można bazy';
 $lang['f_synch_remained']               =   'Pozostało filmów';
+$lang['f_synch_id']                     =   'Id filmu';
+$lang['f_synch_error']                  =   'Błąd';
 $lang['f_synch_ok']                     =   'Baza jest zsynchronizowana';
 
 // GD conversion, create poster and fanart cache

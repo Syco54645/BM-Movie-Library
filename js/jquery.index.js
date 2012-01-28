@@ -80,4 +80,16 @@ $(window).load(function() {
             opacity: 1
         }, 200 );
     });
+    
+    /* Switching trailer */
+    $('#trailer_play').click(function(){
+        $('#trailer_thumb').fadeOut('slow');
+        $('#trailer_play').fadeOut('slow');
+        $('#trailer').fadeIn('slow');
+    });
+    $('#bg').click(function(){
+        $('#trailer').fadeOut('slow');
+        $('#trailer_play').fadeIn('slow');
+        $('#trailer_thumb').fadeIn('slow');
+    });
 });

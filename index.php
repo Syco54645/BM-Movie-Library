@@ -111,7 +111,7 @@ while ($list = mysql_fetch_array($list_result)) {
 /* #########
  * # MOVIE #
  */#########
-$movie_sql = 'SELECT ' . $col['id_movie'] . ', ' . $col['id_file'] . ', ' . $col['title'] . ', ' . $col['rating'] . ', ' . $col['year'] . ', ' . $col['poster'] . ', ' . $col['plot'] . ', ' . $col['tagline'] . ', ' . $col['runtime'] . ', ' . $col['fanart'] . ', ' . $col['genre'] . ', ' . $col['country'] . ', ' . $col['director'] . ' FROM movie WHERE ' . $col['id_movie'] . '=' . $id;
+$movie_sql = 'SELECT ' . $col['id_movie'] . ', ' . $col['id_file'] . ', ' . $col['title'] . ', ' . $col['rating'] . ', ' . $col['year'] . ', ' . $col['poster'] . ', ' . $col['plot'] . ', ' . $col['tagline'] . ', ' . $col['runtime'] . ', ' . $col['fanart'] . ', ' . $col['genre'] . ', ' . $col['country'] . ', ' . $col['director'] . ', ' . $col['originaltitle'] . ', ' . $col['trailer'] . ' FROM movie WHERE ' . $col['id_movie'] . '=' . $id;
 $movie_result = mysql_query($movie_sql);
 $movie = mysql_fetch_array($movie_result);
 
@@ -170,6 +170,14 @@ if (isset($achan[$movie_stream_a['iAudioChannels']])) {
     $img_flag_achan = '<img id="achan" src="img/flags/achan_defaultsound.png" alt="">';
 }
 $img_flag = $img_flag_vres . $img_flag_vtype . $img_flag_atype . $img_flag_achan;
+
+// trailer
+$trailer = trailer($movie[$col['title']], $movie[$col['year']], $movie[$col['originaltitle']], $movie[$col['trailer']]);
+if ($trailer !== '') {
+    $trailer_thumb = '<img id="trailer_thumb" class="jq_hide" src="http://img.youtube.com/vi/' . $trailer . '/default.jpg"><img id="trailer_play" class="opacity jq_hide" src="img/trailer.png" alt="" />';
+} else {
+    $trailer_thumb = '';
+}
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -200,7 +208,7 @@ $img_flag = $img_flag_vres . $img_flag_vtype . $img_flag_atype . $img_flag_achan
             </tr>
             <tr>
                 <td><?PHP echo $lang['i_rating'] ?>:</td>
-                <td><?PHP echo $movie[$col['rating']] ?></td>
+                <td><?PHP echo round($movie[$col['rating']], 1) ?></td>
             </tr>
             <tr>
                 <td><?PHP echo $lang['i_country'] ?>:</td>
@@ -237,6 +245,26 @@ $img_flag = $img_flag_vres . $img_flag_vtype . $img_flag_atype . $img_flag_achan
             <div id="plot_text"><span id="plot"><?PHP echo $lang['i_plot'] ?>: </span><?PHP echo $movie[$col['plot']] ?></div>
             <img id="poster" src="<?PHP echo $poster ?>" alt="" />
             <div id="img_flag"><?PHP echo $img_flag ?></div>
+        </div>
+        <?PHP echo $trailer_thumb ?>
+        <div id="trailer">
+        <div id="mediaplayer"></div>
+        <script type="text/javascript" src="jwplayer.js"></script>
+        <script type="text/javascript">
+            var id_yt='<?PHP echo $trailer ?>';
+            if (id_yt !== '') {
+                jwplayer("mediaplayer").setup({
+                    flashplayer: "player.swf",
+                    file: 'http://www.youtube.com/watch?v='+id_yt,
+                    skin: 'glow.zip',
+                    autostart: 'false',
+                    stretching: 'fill',
+                    controlbar: 'over',
+                    width: '470',
+                    height: '320'
+                });
+            }
+        </script>
         </div>
     </body>
 </html>
