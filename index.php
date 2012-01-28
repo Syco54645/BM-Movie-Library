@@ -249,14 +249,14 @@ if ($trailer !== '') {
         <?PHP echo $trailer_thumb ?>
         <div id="trailer">
         <div id="mediaplayer"></div>
-        <script type="text/javascript" src="jwplayer.js"></script>
+        <script type="text/javascript" src="jwplayer/jwplayer.js"></script>
         <script type="text/javascript">
             var id_yt='<?PHP echo $trailer ?>';
             if (id_yt !== '') {
                 jwplayer("mediaplayer").setup({
-                    flashplayer: "player.swf",
+                    flashplayer: "jwplayer/player.swf",
                     file: 'http://www.youtube.com/watch?v='+id_yt,
-                    skin: 'glow.zip',
+                    skin: 'jwplayer/glow.zip',
                     autostart: 'false',
                     stretching: 'fill',
                     controlbar: 'over',
