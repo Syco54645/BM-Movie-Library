@@ -12,7 +12,6 @@ body {
     padding: 0px;
     margin: 0px;
     outline: none;
-    min-width: 960px;
 }
 img {
     vertical-align: middle;
@@ -63,7 +62,6 @@ span.orange {
 #title {
     padding-top: 5px;
     padding-left: 10px;
-    margin-right: 250px;
     font-size:24px;
     font-weight:bold;
     background-color: #000;
@@ -72,16 +70,52 @@ span.orange {
     padding-top: 5px;
     padding-left: 10px;
     padding-bottom: 5px;
-    margin-right: 250px;
     font-size:14px;
     background-color: #000;
+}
+
+/* Panel bottom */
+#panel_bottom {
+    width: 100%;
+    position:absolute;
+    left:0px;
+    bottom: 0px;
+}
+#poster {
+    width:200px;
+    height:280px;
+    position:absolute;
+    left:20px;
+    bottom:45px;
+    border: 1px solid #FFF;
+}
+#img_flag {
+    position:absolute;
+    bottom:14px;
+    left:26px;
+}
+#vres, #vtype, #atype, #achan {
+    width: 48px;
+    height: 18px;
+}
+#plot_text {
+    min-height: 130px;
+    padding-left: 240px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    background-color:#000000;
+}
+#plot {
+    font-weight:bold;
+    color: #0073f2;
 }
 
 /* Panel movie info */
 #info {
     position: absolute;
-    margin-top: 10px;
-    margin-left: 10px;
+    top: 70px;
+    left: 10px;
     border-spacing: 2px;
 }
 #info td {
@@ -90,69 +124,120 @@ span.orange {
     padding-right: 4px;
 }
 
-/* Trailer */
-#trailer {
-    width: 470px;
-    height: 320px;
-    border: 1px solid #fff;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
-    float: bottom;
-    display: none;
+/* Panel random */
+#random {
+    margin-right: 10px;
+    margin-top: 10px;
+    float: right;
 }
+.random_img {
+    vertical-align: top;
+    width: 57px;
+    height: 80px;
+    border: 1px solid #fff;
+    margin-left: 4px;
+    opacity: .7;
+}
+#random_title {
+    text-align: right;
+    background-color: #000;
+    margin-left: 4px;
+    padding-right: 3px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+/* Panel recently */
+#recently {
+    margin-left: 236px;
+    display: inline-block;
+}
+.recently_img {
+    vertical-align: bottom;
+    width: 57px;
+    height: 80px;
+    border: 1px solid #fff;
+    margin-right: 4px;
+    opacity: .7;
+}
+#recently_title {
+    background-color: #000;
+    margin-bottom: 10px;
+    margin-right: 4px;
+    padding-left: 3px;
+    padding-top: 1px;
+    padding-bottom: 1px;}
+
+/* Trailer */
 #trailer_play {
     position: absolute;
-    top: 70px;
-    right: 260px;
+    bottom: 340px;
+    left: 60px;
     width: 120px;
     height: 90px;
     cursor: pointer;
 }
 #trailer_thumb {
     position: absolute;
-    top: 70px;
-    right: 260px;
+    bottom: 340px;
+    left: 60px;
     border: 1px solid #fff;
     width: 120px;
     height: 90px;
 }
+#trailer {
+    width: 470px;
+    height: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+}
+#trailer_layer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: none;
+    opacity: .9;
+}
 
-/* Panel right */
-#panel_right {
+/* Panel list */
+#panel_list {
     width: 245px;
     height: 100%;
-    position: absolute;
-    right: 0px;
+    overflow: scroll;
+    background-color: #000;
+    position: fixed;
+    right: -250px;
     top: 0px;
     border-left: 2px solid #0857b3;
     background-color:#000;
     padding-right: 1px;
     padding-left: 2px;
 }
-#panel_list {
-    height: 100%;
-    overflow: scroll;
+#panel_list_img {
+    position: absolute;
+    right: 0px;
+    top: 200px;
     background-color: #000;
+    border: 1px solid #0857b3;
+    border-right: 0px;
+    padding: 2px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    opacity: .9;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 .nav {
-    padding-top: 2px;
+    padding-top: 4px;
     padding-bottom: 4px;
     color: #0073f2;
     font-weight: bold;
     text-align: center;
 }
-#options, #back {
-    display: block;
-    height: 14px;
-    width: 14px;
-    padding-top: 5px;
-    margin-right: 5px;
-    margin-left: 5px;
-    cursor: pointer;
-}
-
-/* movie list table */
 #list {
     border-collapse: collapse;
     text-align: left;
@@ -170,11 +255,32 @@ span.orange {
     overflow: hidden;
 }
 
-/* movie list options */
+/* Panel options */
 #panel_options {
-    background-color: #000;
-    display: none;
+    width: 245px;
+    height: 100%;
+    position: fixed;
+    right: -250px;
+    top: 0px;
+    border-left: 2px solid #0857b3;
+    background-color:#000;
+    padding-right: 1px;
+    padding-left: 2px;
     text-align: center;
+}
+#panel_options_img {
+    position: absolute;
+    right: 0px;
+    top: 280px;
+    background-color: #000;
+    border: 1px solid #0857b3;
+    border-right: 0px;
+    padding: 2px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    opacity: .9;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 .bold {
     font-weight: bold;
@@ -214,47 +320,6 @@ span.orange {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-}
-
-/* Panel bottom */
-#panel_bottom {
-    width: 100%;
-    position:absolute;
-    left:0px;
-    bottom: 0px;
-    z-index: -1;
-}
-#poster {
-    width:200px;
-    height:280px;
-    position:absolute;
-    left:20px;
-    bottom:45px;
-    border: 1px solid #FFF;
-    z-index: 1;
-}
-#img_flag {
-    position:absolute;
-    bottom:14px;
-    left:26px;
-    z-index: 2;
-}
-#vres, #vtype, #atype, #achan {
-    width: 48px;
-    height: 18px;
-}
-#plot_text {
-    min-height: 130px;
-    padding-left: 240px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: 10px;
-    margin-right: 250px;
-    background-color:#000000;
-}
-#plot {
-    font-weight:bold;
-    color: #0073f2;
 }
 
 /*#############*/

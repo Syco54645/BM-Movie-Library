@@ -35,12 +35,12 @@ if ($search == '') {
 /* ########
  * # SORT #
  */########
-$sort_array = array(1 => $lang['i_title'], $lang['i_year'], $lang['i_rating']);
+$sort_array = array(1 => $lang['i_title'], $lang['i_year'], $lang['i_rating'], $lang['i_added'], $lang['i_runtime']);
 $sort_menu = '';
 foreach ($sort_array as $key => $val) {
     $sort_menu.= ($sort == $key ? ' ' . $val . ' ' : ' <a href="index.php?sort=' . $key . '&amp;id=' . $id . '&amp;genre=' . $genre . '">' . $val . '</a> ');
 }
-$sort_mysql = array(1 => $col['title'] . ' ASC', $col['year'] . ' DESC', $col['rating'] . ' DESC');
+$sort_mysql = array(1 => $col['title'] . ' ASC', $col['year'] . ' DESC', $col['rating'] . ' DESC', $col['id_movie'] . ' DESC', ' CAST( ' . $col['runtime'] . ' AS DECIMAL( 10, 2 ) ) DESC');
 
 /* ##########
  * # GENRES #
@@ -174,9 +174,44 @@ $img_flag = $img_flag_vres . $img_flag_vtype . $img_flag_atype . $img_flag_achan
 // trailer
 $trailer = trailer($movie[$col['title']], $movie[$col['year']], $movie[$col['originaltitle']], $movie[$col['trailer']]);
 if ($trailer !== '') {
-    $trailer_thumb = '<img id="trailer_thumb" class="jq_hide" src="http://img.youtube.com/vi/' . $trailer . '/default.jpg"><img id="trailer_play" class="opacity jq_hide" src="img/trailer.png" alt="" />';
+    $trailer_thumb = '<img id="trailer_thumb" class="jq_hide" src="http://img.youtube.com/vi/' . $trailer . '/default.jpg"><img id="trailer_play" class="opacity jq_hide" src="img/trailer.png">';
 } else {
     $trailer_thumb = '';
+}
+
+// random panel
+if ($random_limit == 0) {
+    $random_output = '';
+} else {
+    $random_sql = 'SELECT ' . $col['id_movie'] . ', ' . $col['id_file'] . ', ' . $col['poster'] . ' FROM movie ORDER BY RAND(), ' . $col['id_movie'] . ' LIMIT ' . $random_limit;
+    $random_result = mysql_query($random_sql);
+    $random_output = '<div id="random_title">' . $lang['i_random'] . '</div>';
+    while ($random = mysql_fetch_array($random_result)) {
+        if (!file_exists('cache/' . $random[$col['id_movie']] . '.jpg')) {
+            preg_match_all('/<thumb.*?>(.*?)<\/thumb>/', $random[$col['poster']], $poster_path);
+            $poster_path = (isset($poster_path[1]) ? $poster_path[1] : '');
+            gd_convert($random[$col['id_movie']], $poster_path, '');
+        }
+        $random_output.= '<a href="index.php?id=' . $random[$col['id_movie']] . '"><img class="random_img" src="cache/' . $random[$col['id_movie']] . '.jpg" alt=""></a>';
+    }
+}
+
+// recently added panel
+if ($recently_limit == 0) {
+    $recently_output = '';
+} else {
+    $recently_sql = 'SELECT ' . $col['id_movie'] . ', ' . $col['id_file'] . ', ' . $col['poster'] . ' FROM movie ORDER BY ' . $col['id_movie'] . ' DESC LIMIT ' . $recently_limit;
+    $recently_result = mysql_query($recently_sql);
+    $recently_output = '';
+    while ($recently = mysql_fetch_array($recently_result)) {
+        if (!file_exists('cache/' . $recently[$col['id_movie']] . '.jpg')) {
+            preg_match_all('/<thumb.*?>(.*?)<\/thumb>/', $recently[$col['poster']], $poster_path);
+            $poster_path = (isset($poster_path[1]) ? $poster_path[1] : '');
+            gd_convert($recently[$col['id_movie']], $poster_path, '');
+        }
+        $recently_output.= '<a href="index.php?id=' . $random[$col['id_movie']] . '"><img class="recently_img" src="cache/' . $recently[$col['id_movie']] . '.jpg" alt=""></a>';
+    }
+    $recently_output.= '<div id="recently_title">' . $lang['i_recently'] . '</div>';
 }
 ?>
 <!DOCTYPE HTML>
@@ -191,12 +226,14 @@ if ($trailer !== '') {
         <script type="text/javascript" src="js/jquery.jscrollpane.min.js"></script>
         <script type="text/javascript" src="js/jquery.index.js"></script>
     </head>
-    <body>
+    <body ondragstart="return false" ondrag="return false">
         <img id="bg" src="<?PHP echo $fanart ?>" alt="<?PHP echo $movie[$col['id_movie']] ?>" />
         <div id="panel_top" class="jq_hide">
             <div id="title"><?PHP echo $movie[$col['title']] ?></div>
             <div id="tagline"><?PHP echo $movie[$col['tagline']] ?></div>
+            <div id="random"><?PHP echo $random_output ?></div>
         </div>
+        <?PHP echo $trailer_thumb ?>
         <table id="info" class="jq_hide">
             <tr>
                 <td><?PHP echo $lang['i_year'] ?>:</td>
@@ -223,48 +260,47 @@ if ($trailer !== '') {
                 <td><?PHP echo $movie[$col['director']] ?></td>
             </tr>
         </table>
-        <div id="panel_right" class="jq_hide">
-            <div id="panel_list" class="scroll">
-                <img id="options" class="opacity" src="img/options.png" title="<?PHP echo $lang['i_options'] ?>" alt="" />
-                <div class="nav"><?PHP echo $nav ?></div>
-                <div class="bold"><?PHP echo $lang['i_list_title'] ?>:</div>
-                <table id="list"><?PHP echo $panel_list ?></table>
-                <nav class="nav"><?PHP echo $nav ?></nav>
-            </div>
-            <div id="panel_options">
-                <img id="back" class="opacity" src="img/back.png" title="<?PHP echo $lang['i_back'] ?>" alt="" />
-                <div class="bold"><?PHP echo $lang['i_search'] ?>:</div>
-                <form method="get" action="index.php"><?PHP echo $search_text ?></form>
-                <div class="bold"><?PHP echo $lang['i_sort'] ?>:</div>
-                <?PHP echo $sort_menu ?>
-                <div class="bold"><?PHP echo $lang['i_genre'] ?>:</div>
-                <div id="genre_menu"><?PHP echo $genre_menu ?></div>
-            </div>
-        </div>
         <div id="panel_bottom" class="jq_hide">
+            <div id="recently"><?PHP echo $recently_output ?></div>
             <div id="plot_text"><span id="plot"><?PHP echo $lang['i_plot'] ?>: </span><?PHP echo $movie[$col['plot']] ?></div>
             <img id="poster" src="<?PHP echo $poster ?>" alt="" />
             <div id="img_flag"><?PHP echo $img_flag ?></div>
         </div>
-        <?PHP echo $trailer_thumb ?>
+        <div id="panel_list_img" class="jq_hide"><img src="img/movie.png"></div>
+        <div id="panel_options_img" class="jq_hide"><img src="img/options.png"></div>
+        <div id="panel_options">
+            <div class="bold"><?PHP echo $lang['i_search'] ?>:</div>
+            <form method="get" action="index.php"><?PHP echo $search_text ?></form>
+            <div class="bold"><?PHP echo $lang['i_sort'] ?>:</div>
+            <?PHP echo $sort_menu ?>
+            <div class="bold"><?PHP echo $lang['i_genre'] ?>:</div>
+            <div id="genre_menu"><?PHP echo $genre_menu ?></div>
+        </div>
+        <div id="panel_list" class="scroll">
+            <div class="nav"><?PHP echo $nav ?></div>
+            <div class="bold"><?PHP echo $lang['i_list_title'] ?>:</div>
+            <table id="list"><?PHP echo $panel_list ?></table>
+            <div class="nav"><?PHP echo $nav ?></div>
+        </div>
+        <div id="trailer_layer"></div>
         <div id="trailer">
-        <div id="mediaplayer"></div>
-        <script type="text/javascript" src="jwplayer/jwplayer.js"></script>
-        <script type="text/javascript">
-            var id_yt='<?PHP echo $trailer ?>';
-            if (id_yt !== '') {
-                jwplayer("mediaplayer").setup({
-                    flashplayer: "jwplayer/player.swf",
-                    file: 'http://www.youtube.com/watch?v='+id_yt,
-                    skin: 'jwplayer/glow.zip',
-                    autostart: 'false',
-                    stretching: 'fill',
-                    controlbar: 'over',
-                    width: '470',
-                    height: '320'
-                });
-            }
-        </script>
+            <div id="mediaplayer"></div>
+            <script type="text/javascript" src="jwplayer/jwplayer.js"></script>
+            <script type="text/javascript">
+                var id_yt='<?PHP echo $trailer ?>';
+                if (id_yt !== '') {
+                    jwplayer("mediaplayer").setup({
+                        flashplayer: "jwplayer/player.swf",
+                        file: 'http://www.youtube.com/watch?v='+id_yt,
+                        skin: 'jwplayer/glow.zip',
+                        autostart: 'false',
+                        stretching: 'fill',
+                        controlbar: 'over',
+                        width: '470',
+                        height: '320'
+                    });
+                }
+            </script>
         </div>
     </body>
 </html>

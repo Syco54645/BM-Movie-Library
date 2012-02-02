@@ -10,6 +10,7 @@
 $lang['i_title']                        =   'Tytuł';
 $lang['i_year']                         =   'Rok';
 $lang['i_rating']                       =   'Ocena';
+$lang['i_added']                        =   'Dodane';
 $lang['i_all']                          =   'Wszystkie';
 $lang['i_page']                         =   'Strona';
 $lang['i_genre']                        =   'Gatunek';
@@ -19,8 +20,6 @@ $lang['i_runtime']                      =   'Czas trwania';
 $lang['i_director']                     =   'Reżyser';
 $lang['i_country']                      =   'Kraj';
 $lang['i_minute']                       =   'min.';
-$lang['i_options']                      =   'Opcje';
-$lang['i_back']                         =   'Powrót';
 $lang['i_first']                        =   'Pierwsza';
 $lang['i_previous']                     =   'Poprzednia';
 $lang['i_next']                         =   'Następna';
@@ -29,6 +28,8 @@ $lang['i_search']                       =   'Szukaj';
 $lang['i_search_del']                   =   'Usuń wyniki wyszukiwania';
 $lang['i_result']                       =   'Wynik dla frazy';
 $lang['i_list_title']                   =   'Lista filmów';
+$lang['i_recently']                     =   'Ostatnio dodane';
+$lang['i_random']                       =   'Losowe filmy';
 
 /* #############
  * # PANEL.PHP #
@@ -37,6 +38,7 @@ $lang['i_list_title']                   =   'Lista filmów';
 // Sets script mode
 $lang['p_mode_safe']                    =   'Skrypt używa bazy danych XBMC, i pracuje w trybie safe mode. Nie możesz importować plików.';
 $lang['p_mode_normal']                  =   'Skrypt używa własnej bazy danych, możesz importować pliki xml i nfo.';
+$lang['p_mode_safe_orange']             =   'Safe Mode';
 
 // Check table in database
 $lang['p_tab_no_exists']                =   'nie istnieje';
@@ -91,8 +93,9 @@ $lang['p_html_movies']                  =   'Filmy';
 $lang['p_html_founded_files']           =   'Znalezione pliki';
 $lang['p_html_single_files']            =   'Pliki nfo';
 $lang['p_html_remote_con']              =   'Połączenie zdalne';
-$lang['p_html_gd_lib']                  =   'Bilblioteka GD';
+$lang['p_html_lib']                     =   'Bilblioteki';
 $lang['p_html_gd_stat']                 =   'Status GD';
+$lang['p_html_curl_stat']               =   'Status CURL';
 $lang['p_html_chmod_stat']              =   'CHMOD';
 $lang['p_html_cache']                   =   'Pamięć podręczna';
 

@@ -99,19 +99,19 @@ if (!mysql_num_rows($result_table)) {
  */#################
 
 if ($mode == 1) {
-    $check_xml = '';
+    $check_xml = '<span class="orange">' . $lang['p_mode_safe_orange'] . '</span>';
 } else {
     if (file_exists('export/' . $xml_file)) {
         $filesize = round(filesize('export/' . $xml_file) / 1048576, 2) . ' MB';
         $xml = @simplexml_load_file('export/' . $xml_file);
         if ($xml) {
             $i_movies = count($xml->movie);
-            $check_xml = '<span class="green">' . $i_movies . '</span> ' . $filesize . ' <a href="panel.php?option=xml_file_info">' . $lang['p_xml_show'] . '</a> <a href="panel.php?option=xml_import">' . $lang['p_xml_import'] . '</a>';
+            $check_xml = 'videodb.xml: <span class="green">' . $i_movies . '</span> ' . $filesize . ' <a href="panel.php?option=xml_file_info">' . $lang['p_xml_show'] . '</a> <a href="panel.php?option=xml_import">' . $lang['p_xml_import'] . '</a>';
         } else {
-            $check_xml = '<span class="green">0</span> <a href="panel.php?option=xml_file_info">' . $lang['p_xml_show'] . '</a>';
+            $check_xml = 'videodb.xml: <span class="green">0</span> <a href="panel.php?option=xml_file_info">' . $lang['p_xml_show'] . '</a>';
         }
     } else {
-        $check_xml = '<span class="orange">' . $lang['p_xml_not_found'] . '</span>';
+        $check_xml = 'videodb.xml: <span class="orange">' . $lang['p_xml_not_found'] . '</span>';
     }
 }
 
@@ -131,75 +131,87 @@ if ($mode == 1) {
         }
     }
     closedir();
-    $check_nfo = ($i_nfo == 0 ? '<span class="orange">' . $lang['p_nfo_not_found'] . '</span>' : '<span class="green">' . $i_nfo . '</span> <a href="panel.php?option=nfo_file_info">' . $lang['p_nfo_show'] . '</a>');
+    $check_nfo = '<br>' . $lang['p_html_single_files'] . ': ' . ($i_nfo == 0 ? '<span class="orange">' . $lang['p_nfo_not_found'] . '</span>' : '<span class="green">' . $i_nfo . '</span> <a href="panel.php?option=nfo_file_info">' . $lang['p_nfo_show'] . '</a>');
 }
 
 /* ###########################
  * # Check remote connection #
  */###########################
 
-$connect_remote = @mysql_connect($remote_connection[0] . ':' . $remote_connection[1], $remote_connection[2], $remote_connection[3]);
-$database_remote = @mysql_select_db($remote_connection[4], $connect_remote);
-if (!$connect_remote) {
-    $remote_conn_info = '<span class="orange">' . $lang['p_synch_no_conn'] . '</span>';
-} elseif (!$database_remote) {
-    $remote_conn_info = $lang['p_synch_conn_to'] . ': <span class="green">' . $mysql_host_remote . '</span><br /><span class="red">' . $lang['p_synch_cant_select'] . ': ' . $remote_connection[4] . '</span>';
-} else {
-    $remote_conn_info = $lang['p_synch_conn_to'] . ': <span class="green">' . $mysql_host_remote . '</span><br />';
-
-    // Check id movie from remote
-    $remote_sql = 'SELECT ' . $col['id_movie'] . ' FROM movie ORDER BY ' . $col['id_movie'];
-    $remote_result = mysql_query($remote_sql, $connect_remote);
-    $id_remote_assoc = array();
-    while ($remote = mysql_fetch_assoc($remote_result)) {
-        array_push($id_remote_assoc, $remote[$col['id_movie']]);
-    }
-    mysql_close();
-
-    // Check id movie from local
-    mysql_connect($mysql_host . ':' . $mysql_port, $mysql_login, $mysql_pass);
-    mysql_select_db($mysql_database);
-    $local_sql = 'SELECT ' . $col['id_movie'] . ' FROM movie ORDER BY ' . $col['id_movie'];
-    $local_result = mysql_query($local_sql);
-    $id_local_assoc = array();
-    if ($local_result) {
-        while ($local = mysql_fetch_assoc($local_result)) {
-            array_push($id_local_assoc, $local[$col['id_movie']]);
-        }
-    }
-    
-    // Set movie to remove
-    $i = 0;
-    foreach ($id_local_assoc as $val) {
-        if (!in_array($val, $id_remote_assoc)) {
-            $i++;
-        }
-    }
-    $movie_to_remove = $i;
-
-    // Set movie to add
-    $i = 0;
-    foreach ($id_remote_assoc as $val) {
-        if (!in_array($val, $id_local_assoc)) {
-            $i++;
-        }
-    }
-    $movie_to_add = $i;
-    if ($movie_to_add == 0 && $movie_to_remove == 0) {
-        $remote_conn_info.= '<span class="green">' . $lang['p_synch_database_synch'] . '</span>';
+if ($mode !== 1) {
+    $connect_remote = @mysql_connect($remote_connection[0] . ':' . $remote_connection[1], $remote_connection[2], $remote_connection[3]);
+    $database_remote = @mysql_select_db($remote_connection[4], $connect_remote);
+    if (!$connect_remote) {
+        $remote_conn_info = '<span class="orange">' . $lang['p_synch_no_conn'] . '</span>';
+    } elseif (!$database_remote) {
+        $remote_conn_info = $lang['p_synch_conn_to'] . ': <span class="green">' . $mysql_host_remote . '</span><br /><span class="red">' . $lang['p_synch_cant_select'] . ': ' . $remote_connection[4] . '</span>';
     } else {
-        $remote_conn_info.= $lang['p_synch_movie_to_remove'] . ': <span class="orange">' . $movie_to_remove . '</span><br />' . $lang['p_synch_movie_to_add'] . ': <span class="orange">' . $movie_to_add . '</span><br /><a href="panel.php?option=synch">' . $lang['p_synch_synch'] . '</a>';
+        $remote_conn_info = $lang['p_synch_conn_to'] . ': <span class="green">' . $mysql_host_remote . '</span><br />';
+
+        // Check id movie from remote
+        $remote_sql = 'SELECT ' . $col['id_movie'] . ' FROM movie ORDER BY ' . $col['id_movie'];
+        $remote_result = mysql_query($remote_sql, $connect_remote);
+        $id_remote_assoc = array();
+        while ($remote = mysql_fetch_assoc($remote_result)) {
+            array_push($id_remote_assoc, $remote[$col['id_movie']]);
+        }
+        mysql_close();
+
+        // Check id movie from local
+        mysql_connect($mysql_host . ':' . $mysql_port, $mysql_login, $mysql_pass);
+        mysql_select_db($mysql_database);
+        $local_sql = 'SELECT ' . $col['id_movie'] . ' FROM movie ORDER BY ' . $col['id_movie'];
+        $local_result = mysql_query($local_sql);
+        $id_local_assoc = array();
+        if ($local_result) {
+            while ($local = mysql_fetch_assoc($local_result)) {
+                array_push($id_local_assoc, $local[$col['id_movie']]);
+            }
+        }
+
+        // Set movie to remove
+        $i = 0;
+        foreach ($id_local_assoc as $val) {
+            if (!in_array($val, $id_remote_assoc)) {
+                $i++;
+            }
+        }
+        $movie_to_remove = $i;
+
+        // Set movie to add
+        $i = 0;
+        foreach ($id_remote_assoc as $val) {
+            if (!in_array($val, $id_local_assoc)) {
+                $i++;
+            }
+        }
+        $movie_to_add = $i;
+        if ($movie_to_add == 0 && $movie_to_remove == 0) {
+            $remote_conn_info.= '<span class="green">' . $lang['p_synch_database_synch'] . '</span>';
+        } else {
+            $remote_conn_info.= $lang['p_synch_movie_to_remove'] . ': <span class="orange">' . $movie_to_remove . '</span><br />' . $lang['p_synch_movie_to_add'] . ': <span class="orange">' . $movie_to_add . '</span><br /><a href="panel.php?option=synch">' . $lang['p_synch_synch'] . '</a>';
+        }
     }
+} else {
+    $remote_conn_info = '<span class="orange">' . $lang['p_mode_safe_orange'] . '</span>';
 }
 
-/* ####################
- * # Check gd library #
- */####################
+/* ###################
+ * # Check libraries #
+ */###################
 
+// gd library
 if (!extension_loaded('gd')) {
     $check_gd = '<span class="red">ERROR</span>';
 } else {
     $check_gd = '<span class="green">OK</span>';
+}
+
+// curl library
+if (!extension_loaded('curl')) {
+    $check_curl = '<span class="red">ERROR</span>';
+} else {
+    $check_curl = '<span class="green">OK</span>';
 }
 
 /* ###############
@@ -274,11 +286,11 @@ $time = round($time, 2) . ' s';
             <div class="p_box_title"><?PHP echo $lang['p_html_database'] ?></div>
             <div class="p_box_content"><?PHP echo $lang['p_html_table'] ?>: <?PHP echo $check_table ?><br><?PHP echo $lang['p_html_movies'] ?>: <?PHP echo $table_rows ?></div>
             <div class="p_box_title"><?PHP echo $lang['p_html_founded_files'] ?></div>
-            <div class="p_box_content">videodb.xml: <?PHP echo $check_xml ?><br><?PHP echo $lang['p_html_single_files'] ?>: <?PHP echo $check_nfo ?></div>
+            <div class="p_box_content"><?PHP echo $check_xml ?><?PHP echo $check_nfo ?></div>
             <div class="p_box_title"><?PHP echo $lang['p_html_remote_con'] ?></div>
             <div class="p_box_content"><?PHP echo $remote_conn_info ?></div>
-            <div class="p_box_title"><?PHP echo $lang['p_html_gd_lib'] ?></div>
-            <div class="p_box_content"><?PHP echo $lang['p_html_gd_stat'] ?>: <?PHP echo $check_gd ?></div>
+            <div class="p_box_title"><?PHP echo $lang['p_html_lib'] ?></div>
+            <div class="p_box_content"><?PHP echo $lang['p_html_gd_stat'] ?>: <?PHP echo $check_gd ?><br /><?PHP echo $lang['p_html_curl_stat'] ?>: <?PHP echo $check_curl ?></div>
             <div class="p_box_title"><?PHP echo $lang['p_html_chmod_stat'] ?></div>
             <div class="p_box_content"><?PHP echo $check_chmod ?></div>
             <div class="p_box_title"><?PHP echo $lang['p_html_cache'] ?></div>

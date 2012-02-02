@@ -10,6 +10,7 @@
 $lang['i_title']                        =   'Title';
 $lang['i_year']                         =   'Year';
 $lang['i_rating']                       =   'Rating';
+$lang['i_added']                        =   'Added';
 $lang['i_all']                          =   'All';
 $lang['i_page']                         =   'Page';
 $lang['i_genre']                        =   'Genre';
@@ -19,8 +20,6 @@ $lang['i_runtime']                      =   'Runtime';
 $lang['i_director']                     =   'Director';
 $lang['i_country']                      =   'Country';
 $lang['i_minute']                       =   'min.';
-$lang['i_options']                      =   'Options';
-$lang['i_back']                         =   'Back';
 $lang['i_first']                        =   'First';
 $lang['i_previous']                     =   'Previous';
 $lang['i_next']                         =   'Next';
@@ -29,6 +28,8 @@ $lang['i_search']                       =   'Search';
 $lang['i_search_del']                   =   'Delete search results';
 $lang['i_result']                       =   'Result for phrase';
 $lang['i_list_title']                   =   'Movie list';
+$lang['i_recently']                     =   'Recently added';
+$lang['i_random']                       =   'Random movies';
 
 /* #############
  * # PANEL.PHP #
@@ -37,6 +38,7 @@ $lang['i_list_title']                   =   'Movie list';
 // Sets script mode
 $lang['p_mode_safe']                    =   'Script use XBMC database, and is working in safe mode. You can\'t import files';
 $lang['p_mode_normal']                  =   'Script use the own database, you can import xml and nfo files';
+$lang['p_mode_safe_orange']             =   'Safe Mode';
 
 // Check table in database
 $lang['p_tab_no_exists']                =   'not exists';
@@ -91,8 +93,9 @@ $lang['p_html_movies']                  =   'Movies';
 $lang['p_html_founded_files']           =   'Founded files';
 $lang['p_html_single_files']            =   'Nfo files';
 $lang['p_html_remote_con']              =   'Remote connection';
-$lang['p_html_gd_lib']                  =   'GD Library';
+$lang['p_html_lib']                     =   'Libraries';
 $lang['p_html_gd_stat']                 =   'GD Status';
+$lang['p_html_curl_stat']               =   'CURL Status';
 $lang['p_html_chmod_stat']              =   'CHMOD Status';
 $lang['p_html_cache']                   =   'Cache';
 

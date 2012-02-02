@@ -10,15 +10,21 @@
 /* #################
  * # OPTIONS START #
  */#################
+
+// Database
 $mysql_host = 'localhost'; // Database host
 $mysql_port = '3306'; // Database port, default is 3306
 $mysql_login = 'login'; // Database login
 $mysql_pass = 'pass'; // Database password
 $mysql_database = 'database'; // Database name
+
+// Config
 $xml_file = 'videodb.xml'; // File with movie library, default is videodb.xml
-$per_page = 30; // Movies per page, If you do not want to have pagination, type 0
 $language = 'lang_en.php'; // The file that contains the language, file must be in the lang/ folder
 $panel_pass = 'admin'; // Password to admin panel
+$per_page = 30; // Movies per page, If you do not want to have pagination, type 0
+$random_limit = 5; // Movies in random panel, to turn off panel type 0
+$recently_limit = 5; // Movies in recently added panel, to turn off panel type 0
 
 // Remote database
 $mysql_host_remote = 'host.com'; // Database host
