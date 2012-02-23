@@ -19,8 +19,12 @@ Installation:
 
 There are three methods to using script.
 
-You must make sure that the cache directory is writable by the user running apache. In ubuntu issue
+You must make sure that the cache directory is writable by the user running apache. on ubuntu issue
 sudo chgrp www-data cache
+
+requires curl. on ubuntu issue
+sudo apt-get install curl libcurl3 libcurl3-dev php5-curl
+sudo apachectl restart
 
 1. Script can work directly on the xbmc database, then movie list is always current (database must be always online).
 
