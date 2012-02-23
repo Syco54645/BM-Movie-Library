@@ -209,7 +209,7 @@ if ($recently_limit == 0) {
             $poster_path = (isset($poster_path[1]) ? $poster_path[1] : '');
             gd_convert($recently[$col['id_movie']], $poster_path, '');
         }
-        $recently_output.= '<a href="index.php?id=' . $random[$col['id_movie']] . '"><img class="recently_img" src="cache/' . $recently[$col['id_movie']] . '.jpg" alt=""></a>';
+        $recently_output.= '<a href="index.php?id=' . $recently[$col['id_movie']] . '"><img class="recently_img" src="cache/' . $recently[$col['id_movie']] . '.jpg" alt=""></a>';
     }
     $recently_output.= '<div id="recently_title">' . $lang['i_recently'] . '</div>';
 }
