@@ -1,0 +1,40 @@
+BM Movie Library
+
+Hello. A long time I was looking for a script that quickly and easily would present library movies to all my friends in the network. At the same time I would have complete control over it. Because not anything specific I could find I decided to write my own script.
+
+If someone likes it, it can free to use it.
+
+Description:
+
+The script automatically reads the videodb.xml and the *.nfo files and imports them into the database. Then displays for all visitors poster, fanart and information about the film containing title, description, year, director, genre etc.
+
+Requirements:
+
+Server with:
+- Apache with GD2 extension
+- PHP 5.3
+- MySql database
+
+Installation:
+
+There are three methods to using script.
+
+You must make sure that the cache directory is writable by the user running apache. In ubuntu issue
+sudo chgrp www-data cache
+
+1. Script can work directly on the xbmc database, then movie list is always current (database must be always online).
+
+The best is to create a new user in xbmc database with access rights only to SELECT. This is not necessary because the script uses safe mode and will not damage the database.
+In the config.php file set main connection to xbmc database. Remote connection leave without change. Script run in safe mode (read-only).
+
+2. Script connects to the xbmc database and one-click update his own database to current.
+
+The best is to create a new user in xbmc database with access rights only to SELECT. This is not necessary because the script uses safe mode and will not damage the database.
+In the config.php file set main connection to script database and remote connection to XBMC database.
+
+3. Script import movie from a videodb.xml or nfo files.
+Set main connection to script database, import videodb.xml or nfo files to export/ directory and in admin panel import movies to database. 
+
+In three cases, posters and fanarts will be downloaded from the links that xbmc scraper take. Not need to copy large amounts of jpg and tbn files.
+
+When watching the first time each film, library will load longer because it must create a poster and fanart thumbnails. If you want to create thumbnails for all files in the admin panel, click on the "create cache".
