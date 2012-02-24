@@ -41,7 +41,12 @@ if($versionCount == 0){
 }else{
     $contentUpgrade .= $lang['system_sync_err'];
 }
+$contentUpgrade = $lang['system_update'];
 
+if(isset($_GET['update'])){
+    $gitPull = shell_exec('git pull git://github.com/Syco54645/BM-Movie-Library.git');
+    echo $gitPull."<br />";
+}
 
 /* ####################
  * # Sets script mode #

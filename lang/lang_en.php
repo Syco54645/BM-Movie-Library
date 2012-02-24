@@ -101,7 +101,7 @@ $lang['p_html_cache']                   =   'Cache';
 
 // System Updates
 $lang['system_up_to_date']              =   'System already up to date.';
-$lang['system_update']          		=   "'System is not up to date.<br />Please click <a href='update.php'>here</a> to update it.";
+$lang['system_update']          		=   "System is not up to date.<br />Please click <a href='panel.php?update'>here</a> to update it.";
 $lang['system_sync_err']                =   'System is out of sync.<br />If you are not a developer then something is broken.';
 
 /* ################
