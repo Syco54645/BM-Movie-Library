@@ -16,16 +16,31 @@ if (!isset($_SESSION['id'])
 
 
 /* 
-    ######################
-    # Checks for Updates #
-    ######################
+    #####################
+    # Check for Updates #
+    #####################
 */
-//Syco54645 / BM-Movie-Library
-$version = shell_exec("git rev-parse HEAD");
-echo $version."<br />";
+$version = trim(shell_exec("git rev-parse HEAD"));
+//echo "|".$version."|"."<br />";
 $commits = $github->getCommitApi()->getBranchCommits('Syco54645', 'BM-Movie-Library', 'master');
-echo $commits[0]['id']."<br />";
-
+//echo "|".$commits[0]['id']."|"."<br />";
+$ct = count($commits);
+//echo $ct."<br />";
+$contentUpgrade='';
+$versionCount=-10;
+for($i=0; $i<$ct; $i++){
+    //echo $commits[$i]['id']."<br />";
+    if($commits[$i]['id'] == $version){
+        $versionCount = $i;
+    }
+}
+if($versionCount == 0){
+    $contentUpgrade .= "System already up to date.";
+}elseif($versionCount > 0){
+    $contentUpgrade .= "System is not up to date.";
+}else{
+    $contentUpgrade .= "System is out of synch. <br />If you are not a developer then something is broken.";
+}
 
 
 /* ####################
@@ -298,6 +313,12 @@ $time = round($time, 2) . ' s';
         <script type="text/javascript" src="js/jquery.panel.js"></script>
     </head>
     <body>
+        <div id="p_panel_upgrade">
+            <div class="p_box_title">Upgrade System</div>
+            <div id="p_box_upgrade">
+                <?PHP echo $contentUpgrade ?>
+            </div>
+        </div>
         <div id="p_panel_left">
             <div class="p_box_title"><?PHP echo $lang['p_html_admin_panel'] ?></div>
             <div class="p_box_content"><a href="index.php"><?PHP echo $lang['p_html_library'] ?></a> | <a href="panel.php"><?PHP echo $lang['p_html_admin'] ?></a> | <a href="login.php?logout=1"><?PHP echo $lang['p_html_logout'] ?></a></div>

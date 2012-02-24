@@ -346,6 +346,17 @@ span.orange {
     background-color: #111;
     border: 1px solid #333;
 }
+#p_panel_upgrade {
+    margin-top: 10px;
+    padding: 10px;
+    width: 631px;
+}
+#p_box_upgrade {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #111;
+    border: 1px solid #333;
+}
 #p_panel_content {
     margin-left: 10px;
     margin-top: 10px;
