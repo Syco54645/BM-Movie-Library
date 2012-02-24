@@ -4,11 +4,29 @@ header('Content-type: text/html; charset=utf-8');
 session_start();
 require 'config.php';
 require 'function.php';
+require_once 'lib/Github/Autoloader.php';
+Github_Autoloader::register();
+$github = new Github_Client();
 
 if (!isset($_SESSION['id'])
         or $_SESSION['id'] !== md5($_SERVER['REMOTE_ADDR']) . md5($panel_pass)) {
     header('location: login.php');
 }
+
+
+
+/* 
+    ######################
+    # Checks for Updates #
+    ######################
+*/
+//Syco54645 / BM-Movie-Library
+$version = shell_exec("git rev-parse HEAD");
+echo $version."<br />";
+$commits = $github->getCommitApi()->getBranchCommits('Syco54645', 'BM-Movie-Library', 'master');
+echo $commits[0]['id']."<br />";
+
+
 
 /* ####################
  * # Sets script mode #
