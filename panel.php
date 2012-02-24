@@ -35,11 +35,11 @@ for($i=0; $i<$ct; $i++){
     }
 }
 if($versionCount == 0){
-    $contentUpgrade .= "System already up to date.";
+    $contentUpgrade .= $lang['system_up_to_date'];
 }elseif($versionCount > 0){
-    $contentUpgrade .= "System is not up to date.<br />Please click <a href='update.php'>here</a> to update it.";
+    $contentUpgrade .= $lang['system_update'];
 }else{
-    $contentUpgrade .= "System is out of synch. <br />If you are not a developer then something is broken.";
+    $contentUpgrade .= $lang['system_sync_err'];
 }
 
 
