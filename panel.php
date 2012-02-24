@@ -20,6 +20,7 @@ if (!isset($_SESSION['id'])
     # Check for Updates #
     #####################
 */
+//TODO change to the real repository before push
 $version = trim(shell_exec("git rev-parse HEAD"));
 //echo "|".$version."|"."<br />";
 $commits = $github->getCommitApi()->getBranchCommits('Syco54645', 'BM-Movie-Library', 'master');
@@ -41,7 +42,8 @@ if($versionCount == 0){
 }else{
     $contentUpgrade .= $lang['system_sync_err'];
 }
-$contentUpgrade = $lang['system_update'];
+//line to debug updates
+//$contentUpgrade = $lang['system_update'];
 
 if(isset($_GET['update'])){
     $gitPull = shell_exec('git pull git://github.com/Syco54645/BM-Movie-Library.git');
