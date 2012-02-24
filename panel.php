@@ -37,7 +37,7 @@ for($i=0; $i<$ct; $i++){
 if($versionCount == 0){
     $contentUpgrade .= "System already up to date.";
 }elseif($versionCount > 0){
-    $contentUpgrade .= "System is not up to date.";
+    $contentUpgrade .= "System is not up to date.<br />Please click <a href='update.php'>here</a> to update it.";
 }else{
     $contentUpgrade .= "System is out of synch. <br />If you are not a developer then something is broken.";
 }
